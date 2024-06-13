@@ -1,0 +1,171 @@
+<div class="container">
+    <h2>Registrar</h2>
+    <form class="register_container">
+        <!-- Tipo de usuario -->
+        <div class="form-group">
+            <label for="idrol">Rol del usuario</label>
+            <div class="flex">
+                <span class="p-inputgroup-addon"><i class="fa-solid fa-user-group"></i></span>
+                <p-dropdown class="" width="100%" [options]="roles" name="rolseleccionado" [(ngModel)]="rolseleccionado"
+                    [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un rol" optionLabel="nombrerol"
+                    [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+        <!-- Tipo de documento -->
+        <div class="form-group">
+            <label for="idtipoidentificacion">Tipo de identificacion</label>
+            <div class="flex">
+                <span class="p-inputgroup-addon"><i class="fa-solid fa-id-card"></i></span>
+                <p-dropdown [options]="tiposidentificacion" name="identificacionseleccionada"
+                    [(ngModel)]="identificacionseleccionada" [ngModelOptions]="{ standalone: true }"
+                    placeholder="Seleccione un Tipo de identificacion" optionLabel="descripciontipoidentificacion"
+                    [showClear]="true"></p-dropdown>
+
+
+            </div>
+        </div>
+
+        <!-- Tipo de persona -->
+        <div class="form-group">
+            <label for="idtipopersona">Tipo de persona</label>
+            <div class="flex">
+                <span class="p-inputgroup-addon"><i class="fa-solid fa-person"></i></span>
+                <p-dropdown [options]="tipospersonas" name="personaseleccionada" [(ngModel)]="personaseleccionada"
+                    [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un tipo de persona"
+                    optionLabel="descripciontipopersona" [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+
+        <!-- Numero de identificacion -->
+        <div class="form-group">
+            <label for="identificacion">Numero de identificacion</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-regular fa-id-card"></i></span>
+                    <input type="text" name="numeroidentificacion" [(ngModel)]="numeroidentificacion" pInputText
+                        placeholder="Numero de identificacion">
+                </div>
+            </div>
+        </div>
+
+        <!-- Nombres -->
+        <div class="form-group">
+            <label for="nombre">Nombres</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-regular fa-user"></i></span>
+                    <input type="text" name="nombres" [(ngModel)]="name" pInputText placeholder="Nombres">
+                </div>
+            </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="form-group">
+            <label for="apellido">Apellidos</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-regular fa-user"></i></span>
+                    <input type="text" name="apellidos" [(ngModel)]="apellidos" placeholder="Apellidos">
+                </div>
+            </div>
+        </div>
+
+        <!-- Genero -->
+        <div class="form-group">
+            <label for="genero">Género</label>
+            <div class="flex">
+                <span class="p-inputgroup-addon"><i class="fa-solid fa-venus-mars"></i></span>
+                <p-dropdown [options]="generos" name="generoseleccionado" [(ngModel)]="generoseleccionado"
+                    [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un genero"
+                    optionLabel="descripciongenero" [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-location-dot"></i></span>
+                    <input type="text" name="direccion" [(ngModel)]="direccion" pInputText placeholder="Dirección">
+                </div>
+            </div>
+        </div>
+
+        <!-- Celular -->
+        <div class="form-group">
+            <label for="celular">Celular</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-mobile"></i></span>
+                    <input type="text" name="celular" [(ngModel)]="celular" pInputText placeholder="Celular">
+                </div>
+            </div>
+        </div>
+
+        <!-- Telefono -->
+        <div class="form-group">
+            <label for="telefono">Telefono</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-phone"></i></span>
+                    <input type="text" name="telefono" [(ngModel)]="telefono" placeholder="Telefono">
+                    <input type="text" name="extension" [(ngModel)]="extension" placeholder="Ext.">
+                </div>
+            </div>
+        </div>
+
+        <!-- Departamento -->
+        <div class="form-group">
+            <label for="iddepartamento">Departamento</label>
+            <div class="flex">
+                <span class="p-inputgroup-addon"><i class="fa-regular fa-building"></i></span>
+                <p-dropdown [options]="departamentos" name="departamentoseleccionado"
+                    [(ngModel)]="departamentoseleccionado" [ngModelOptions]="{ standalone: true }"
+                    placeholder="Seleccione un departamento" optionLabel="nombredepartamento"
+                    [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+
+        <!-- Cargo -->
+        <div class="form-group">
+            <label for="idcargo">Cargo</label>
+            <div class="flex">
+                <span class="p-inputgroup-addon"><i class="fa-solid fa-user-tie"></i></span>
+                <p-dropdown [options]="cargos" name="cargoseleccionado" [(ngModel)]="cargoseleccionado"
+                    [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un cargo"
+                    optionLabel="descripcioncargo" [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-regular fa-envelope"></i></span>
+                    <input type="text" name="email" [(ngModel)]="email" placeholder="E-mail">
+                </div>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="col-12 md:col-4">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" pPassword name="password" [(ngModel)]="password" [feedback]="false"
+                        placeholder="Password" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="btn-group-register">
+        <button type="submit" class="btn btn-primary" (click)="guardarRegistro()">Siguiente</button>
+    </div>
+
+    <p-toast></p-toast>
+
+</div>

@@ -1,0 +1,101 @@
+  /* Global styles */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+  body {
+    margin: 0;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  h4 {
+    font-weight: 300;
+  }
+
+  .yellow {
+    border-bottom: 15px solid rgb(253, 232, 111);
+  }
+
+  .green {
+    border-bottom: 15px solid var(--green-400);
+  }
+
+  .red {
+    border-bottom: 15px solid var(--red-400);
+  }
+
+  .grey {
+
+    background-color: var(--bluegray-50);
+    border-bottom: 15px solid var(--bluegray-200);
+
+  }
+
+  .card {
+    background-color: rgb(174, 174, 174);
+    width: 200px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  :host::ng-deep .p-card {
+    max-width: 280px;
+  }
+
+  .dash_container {
+    width: calc(100vw - 260px);
+  }
+
+  :host ::ng-deep .p-carousel .p-button {
+    background-color: var(--cyan-500);
+    border: 1px solid var(--cyan-500);
+  }
+
+  :host ::ng-deep .p-breadcrumb .p-component {
+    width: 100%;
+  }
+
+  :host ::ng-deep .p-carousel-container {
+    margin-top: 0.6rem;
+  }
+
+  .product-item {
+    .product-item-content {
+      border-radius: 10px;
+      margin: .5rem;
+      text-align: center;
+      padding: 2rem 1rem;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      max-width: 450px;
+      min-height: 330px;
+    }
+
+    .product-image {
+      width: 50%;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+  }
+
+  :host ::ng-deep .p-carousel-item {
+    flex: 0;
+  }
+
+  :host ::ng-deep .p-carousel-item .p-carousel-item-active .p-carousel-item-start {
+    flex: 0;
+  }

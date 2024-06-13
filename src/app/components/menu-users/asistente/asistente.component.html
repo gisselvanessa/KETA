@@ -1,0 +1,31 @@
+<nav>
+  <img src="../assets/keta logo 2.svg" alt="Logo_jakay" height="55px">
+
+  <div class="buttons_right">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false"><i class="pi pi-user"></i> {{usuarioLoggeado}}
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a [routerLink]="['/asistente-ticket/profile']" class="dropdown-item"> <i style="margin-right: 10px;" class="fa-regular fa-id-badge"></i>Mi Perfil</a></li>
+        <li>
+          <hr class="dropdown-divider" />
+        </li>
+        <li><a class="dropdown-item" (click)="logout()"> <i class="pi pi-sign-out"></i> Cerrar Sesión</a>
+        </li>
+      </ul>
+    </li>
+  </div>
+</nav>
+
+<div class="sidebar_container">
+  <div id="wrapper">
+    <div class="sidebar">
+      <br>
+      <p-panelMenu [model]="menuItems"></p-panelMenu>
+    </div>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

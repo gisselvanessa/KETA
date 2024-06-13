@@ -1,0 +1,232 @@
+
+<div>
+<!-- Tickets reados por asistente -->
+<div class="first-pb">
+    <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '5px'}"></p-progressBar>
+</div>
+<p-panel header="Tickets creados por mi">
+    <p-table [paginator]="true" [rows]="8" [value]="listaTareasPendiente" [tableStyle]="{'min-width': '50rem'}"
+        responsiveLayout="stack" [breakpoint]="'960px'">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="codigo" style="min-width: 150px;">Ticket <p-sortIcon
+                        field="codigo"></p-sortIcon></th>
+                <th pSortableColumn="titulo_tarea" style="min-width: 150px;">Descripción tarea<p-sortIcon
+                        field="titulo_tarea"></p-sortIcon></th>
+                <th pSortableColumn="prioridad" style="min-width: 150px;">Prioridad<p-sortIcon
+                        field="prioridad"></p-sortIcon></th>
+                        
+                <th pSortableColumn="fecha_asignacion" style="min-width: 150px;">Fecha Creación<p-sortIcon
+                        field="fecha_asignacion"></p-sortIcon></th>
+                <th pSortableColumn="fechaentrega" style="min-width: 150px;">Fecha entrega<p-sortIcon
+                        field="fechaentrega"></p-sortIcon></th>
+                <th class="text-center">Acción</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tareaA>
+            <tr>
+                <td>{{tareaA.codigo}}</td> 
+                <td>{{tareaA.titulo_tarea}}</td>
+                <td ><span class="{{tareaA.descripcionprioridad }}"> {{tareaA.prioridad}}</span></td>
+                <td>{{ formatTimestamp(tareaA.fecha_asignacion) }}</td>
+
+                <td>{{ formatTimestamp(tareaA.fechaentrega) }}</td>
+                <td>
+                    <div style=" position: relative;" class="speeddial-linear-demo"><p-speedDial
+                            [model]="items2" showIcon="pi pi-ellipsis-h" direction="left" (onClick)="tareaEscogidaPend(tareaA)"></p-speedDial>
+                    </div>
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No existen tickets pendientes.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<div class="card-footer small text-muted">Listado de {{listaTareasPendiente.length}} tickets.</div>
+
+
+
+
+
+</div>
+
+
+<!-- Dialog para ver destalles de tablas sin vistas -->
+
+
+<p-dialog (onHide)="cerrarModalVerTarea()" [(visible)]="mostrarModalVerTarea" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <ng-template pTemplate="header">
+        <!-- Confirmation -->
+    </ng-template>
+    <h2>Ticket #{{verTareaDialog.tarea}}</h2>
+
+
+
+    <ng-template pTemplate="content">
+
+        <div class="spinner-container" *ngIf="loadingData">
+
+            <p-progressSpinner strokeWidth="7" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+        </div>
+
+        <table *ngIf="!loadingData" class="info-table">
+            <tr>
+                <th>Fecha de creación:</th>
+                <td>{{formatTimestamp(verTareaDialog.fecha_asignacion)}}</td>
+            </tr>
+            <tr>
+                <th>Título: </th>
+                <td>{{verTareaDialog.titulo_tarea}}</td>
+            </tr>
+            <tr>
+                <th>Agencia: </th>
+                <td>{{verTareaDialog.sucursal}}</td>
+            </tr>
+            <tr>
+                <th>Cliente: </th>
+                <td>{{ verTareaDialog.nombre_cliente ?? '' }} {{ verTareaDialog.apellido_cliente ?? '' }}</td>
+
+            </tr>
+   
+            <tr>
+                <th>Tipo de reclamo: </th>
+                <td>{{verTareaDialog.tipo_reclamo}}</td>
+            </tr>
+            <tr>
+                <th>Tipo Comentario: </th>
+                <td>{{verTareaDialog.tipo_comentario !=''|| verTareaDialog.tipo_comentario != undefined || verTareaDialog.tipo_comentario != null   ? verTareaDialog.tipo_comentario : 'No existe comentarios para este ticket!'}}</td>
+            </tr>
+     
+            <tr>
+                <th>Estado:  </th>
+                <td>{{verTareaDialog.estado}}</td>
+            </tr>
+            <tr>
+                <th>Prioridad: </th>
+                <td>{{verTareaDialog.prioridad}}</td>
+            </tr>
+           
+            <tr>
+                <th>Fecha de entrega: </th>
+                <td >{{formatTimestamp(verTareaDialog.fechaentrega)}}</td>
+            </tr>
+        </table>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="cerrarModalVerTarea()" label="Cerrar"
+            class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+
+</p-dialog>
+
+
+<!-- asignar tarea   -->
+
+<p-dialog (onHide)="cerrarModalAsignacion()" [(visible)]="mostrarModalAsignacion" [modal]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <ng-template pTemplate="header">
+        <!-- Confirmation -->
+    </ng-template>
+    <h2>¿Deseas asignar ticket #{{tareaEscogidaAbierta.idtarea}}?</h2>
+    <h4 class="asign">Título de ticket</h4>      
+
+    <textarea rows="5" cols="30" pInputTextarea #numInput4="ngModel" placeholder="Ingrese título del ticket"
+    name="descripciontarea" [(ngModel)]="descripciontarea" style="width: 100%; height: 8rem;"></textarea>
+
+    <h4 class="asign">Asignar ticket a usuario</h4>      
+    <p-dropdown [options]="listaUsuarios" [filter]="true" [filterBy]="'nombres'" name="listausuarios"
+        [(ngModel)]="usuarioseleccionado" [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un usuario"
+        [optionValue]="listaUsuarios.nombres" appendTo="body" optionLabel="email">
+        <ng-template let-option pTemplate="item">
+
+            {{ option.email }} - {{ option.nombres }} {{option.apellidos}} - {{ option.sucursal }}
+        </ng-template>
+    </p-dropdown>
+ 
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="asignarTicket()" label="Aceptar" class="p-button-rounded p-button-help"></button>
+        <button pButton pRipple type="button" (click)="cerrarModalAsignacion()" label="Cancelar" class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- asignar tarea pendiente  -->
+
+
+<p-dialog (onHide)="cerrarModalAsignacion()" [(visible)]="mostrarModalAsignacionPendiente" [modal]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <ng-template pTemplate="header">
+        <!-- Confirmation -->
+    </ng-template>
+    <h2>¿Deseas asignar ticket #{{tareaEscogidaPendiente.idtarea}}?</h2>
+    <h4 class="asign">Título de ticket</h4>      
+
+    <textarea rows="5" cols="30" pInputTextarea #numInput4="ngModel" placeholder="Ingrese título del ticket"
+    name="descripciontarea" [(ngModel)]="descripciontarea" style="width: 100%; height: 8rem;"></textarea>
+
+
+    <h4 class="asign">Asignar ticket a usuario</h4>      
+    <p-dropdown [options]="listaUsuarios" [filter]="true" [filterBy]="'nombres'" name="listausuarios"
+        [(ngModel)]="usuarioseleccionado" [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un usuario"
+        [optionValue]="listaUsuarios.nombres" appendTo="body" optionLabel="email">
+        <ng-template let-option pTemplate="item">
+
+            {{ option.email }} - {{ option.nombres }} {{option.apellidos}} - {{ option.sucursal }}
+        </ng-template>
+    </p-dropdown>
+ 
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="asignarTicketPendiente()" label="Aceptar" class="p-button-rounded p-button-help"></button>
+        <button pButton pRipple type="button" (click)="cerrarModalAsignacion()" label="Cancelar" class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+</p-dialog>
+
+
+
+<!-- Modal para mostrar lista de archivos -->
+<p-dialog (onHide)="cerrarModalAsignacion()" [(visible)]="mostrarModalArchivos" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '45vw'}">
+    <div>
+        <h2>Lista de documentos adjuntos Ticket #{{this.tareaEscogidaPendiente.tarea}} </h2>
+        
+        <!-- Mostrar el spinner cuando los archivos se están cargando -->
+        <div class="spinner-container" *ngIf="cargandoArchivos">
+            <p-progressSpinner styleClass="custom-spinner" strokeWidth="7" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+        </div>
+                
+        <p-table [paginator]="true" [rows]="3"  [value]="listaArchivos" *ngIf="!cargandoArchivos">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Archivo</th>
+                    <th>Descripción</th>
+                    <th>Ver</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-formData>
+                <tr>
+                    <td>{{ formData.nombrearchivo }}</td>
+                    <td>{{ formData.descripcionarchivo }}</td>
+                    <td >
+                        <div class="spacer_spinner">
+                            <button pButton type="button" style="background-color: #6f2b70; border: 1px solid #6f2b70;" (click)="openPDF(formData)" icon="pi pi-file-pdf"></button>
+                            <p-progressSpinner *ngIf="formData.showspinner" strokeWidth="7"
+                            [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="3">No hay archivos</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-dialog>
+
+
+
+<p-toast></p-toast>

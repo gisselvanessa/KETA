@@ -1,0 +1,524 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+body{
+    margin: 0;
+    border: 0;
+    box-sizing: 0;
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+
+}
+h1,h2,h3,h4,p{
+  font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+  
+}
+ul,li, span{
+    list-style: none;
+    text-decoration-line: none;
+    text-decoration: none;
+    color: white;
+    margin: 0;  
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+    font-size: 0.95rem;
+}
+a{
+    cursor: pointer;
+    margin: 0;  
+    padding: 0;
+}
+a:hover, span:hover{
+    color: rgb(255, 192, 74);
+    border-radius: 6px;
+
+}
+
+.custom-expansion-panel{
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+    width: 100%;
+    box-shadow: none;
+    font-size: 14px;
+}
+
+.fa-border-all{
+    font-size: 1.1rem;
+}
+
+.pi-users{
+    font-size: 1.1rem;
+
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  
+  }
+
+.custom-expansion-panel-header{
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+  
+}
+:host ::ng-deep .mat-content {
+    display: flex;
+    flex: 1;
+    gap: 0.5rem;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+}
+
+:host ::ng-deep .mat-expansion-panel-body{
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+    padding-top: 1rem;
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+:host ::ng-deep .mat-content{
+    overflow:visible;
+}
+
+:host ::ng-deep .mat-expansion-indicator{
+    margin: 0 0.5rem;
+}
+
+:host ::ng-deep .mat-expansion-panel-header {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+:host ::ng-deep .mat-expansion-panel-header:hover {
+    color: rgb(255, 192, 74);
+    transform: scale(1.05);
+    background-color: none;
+}
+
+nav{
+    position: fixed; /* Fija la barra de navegación en la pantalla */
+    top: 0;
+    width: 100%;
+    height: 65px;
+    background-color: #255b76;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Asegura que la barra de navegación esté sobre otros elementos */
+}
+
+button{
+    background-color: transparent;
+}
+img{
+    display: block;
+    margin-left: 1rem;
+}
+.item-notification{
+    padding: 1rem;
+    background-color: white;
+    color: black;
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+
+}
+
+.btn-secondary {
+  background-color: #4e1e4f; /* Violet/Purple color with a similar tone as the blue */
+  color: #fff;
+}
+
+.p-button-secondary:hover {
+  filter: brightness(1.5);
+}
+
+.notification-container{
+    position: absolute;
+    top: 50px;
+    right: 150px;
+}
+
+.menu{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pi-bell{
+    cursor: pointer;
+}
+.pi-bell:before {
+    font-size: 1.4rem;
+  }
+  
+  .pi-user{
+    font-size: 21px;
+  }
+
+.content{
+    margin: 1rem;
+    width: 100%;
+    
+}
+
+.dropdown-menu{
+    padding: 0.5rem;
+    width: 480px;
+    z-index: 3000;
+}
+
+:host ::ng-deep .container-fluid{
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-right: 0.5rem;
+}
+
+:host ::ng-deep .p-breadcrumb .p-component{
+    width: 100%;
+}
+
+.sidebar_container{
+    display: flex;
+    height: 100vh;
+    padding-top:65px;
+}
+
+.fa-right-from-bracket{
+    color: rgb(215, 215, 215);
+    font-size: 1.2rem;
+    margin-right: 0.8rem;
+    cursor: pointer;
+}
+
+.fa-circle-user{
+    color: rgb(215, 215, 215);
+    font-size: 1.5rem;
+    margin-right: 0.8rem;
+    cursor: pointer;
+}
+
+.fa-bars{
+
+    color: rgb(215, 215, 215);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.nav_btns{
+    display: flex;
+    align-items: center;
+}
+
+.sidebar {
+    position: fixed; /* Fija la barra lateral en la pantalla */
+    top: 65px; /* Coloca la barra lateral en la parte superior */
+    left: 0; /* Coloca la barra lateral en el extremo izquierdo */
+    width: 225px;
+    height: 100vh;
+    background-color: #071c27;
+    background-image: url('../../../../assets/pattern.png'); 
+    background-size: cover; 
+    z-index: 1000;
+}
+
+.navbar-nav{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.buttons_right{
+    display: flex;
+    gap: 1.5rem;
+}
+/* Estilos para la campanita de notificaciones */
+.notification-badge {
+    position: relative;
+  }
+  
+  .notification-badge i.pi {
+    font-size: 24px; /* Tamaño del icono de campana */
+  }
+  
+  /* Estilos para el badge de notificaciones */
+  .notification-badge .badge {
+    background-color: rgb(255, 102, 0); /* Color de fondo del badge */
+    color: white; /* Color del texto del badge */
+    border-radius: 50%; /* Forma circular para el badge */
+    font-size: 12px; /* Tamaño de fuente del número de notificaciones */
+    padding: 4px 8px; /* Espaciado interno del badge */
+    position: absolute; /* Posición absoluta para el badge */
+    top: -8px; /* Alineación vertical del badge */
+    right: -8px; /* Alineación horizontal del badge */
+  }
+
+.nav-link{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Estilo para la barra lateral no comprimida */
+.sidebar {
+    width: 215px; /* Ancho de la barra lateral cuando no está comprimida */
+    transition: width 0.3s ease;
+  }
+  
+  /* Estilo para la barra lateral comprimida */
+  .sidebar.collapsed {
+    width: 70px; /* Ancho de la barra lateral cuando está comprimida */
+  }
+  
+  /* Estilo para el contenido principal */
+  .content {
+    margin-left: 235px; /* Ajusta el margen izquierdo para dejar espacio para la barra lateral no comprimida */
+    transition: margin-left 0.3s ease;
+    width: calc(100vw - 250px);
+
+  }
+
+  .fa-tachometer-alt, .fa-tasks, .fa-plus-circle, .fa-chart-area, .fa-database{
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  /* Estilo para el contenido principal cuando la barra lateral está comprimida */
+  .content.collapsed {
+    margin-left: 80px; /* Ajusta el margen izquierdo cuando la barra lateral está comprimida */
+    width: calc(100vw - 80px);
+  }
+
+  /* Estilo para ocultar etiquetas de texto en la barra lateral cuando está comprimida */
+.sidebar.collapsed span, .sidebar.collapsed div{
+    display: none;
+  }
+  
+  /* Estilo para mostrar solo íconos en la barra lateral cuando está comprimida */
+  .sidebar.collapsed .nav-link i {
+    display: inline;
+  }
+  
+  /* Estilo para mostrar íconos y etiquetas de texto en la barra lateral cuando está descomprimida */
+  .sidebar:not(.collapsed) .nav-link i {
+    display: inline;
+  }
+
+  .notification-container {
+    width: 350px;
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+  
+
+  
+  .notification-list {
+    overflow-y: auto;
+    max-height: 300px;
+  }
+  
+  .item-notification {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #e4e4e4;
+  }
+  
+  .notification-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .notification-content {
+    flex: 1;
+  }
+  
+  p {
+    margin: 0;
+    font-weight: 400;
+  }
+  
+  .notification-time {
+    color: #999;
+    font-size: 0.8em;
+  }
+  .footer_card{
+    display: flex;
+    justify-content: space-between;
+  }
+  .item-notification:last-child {
+    border-bottom: none;
+  }
+.active-sidebar-item {
+  background-color: #FF0000; /* Cambia el color de fondo a lo que desees */
+  color: #FFFFFF; /* Cambia el color de texto a lo que desees */
+}
+
+  :host ::ng-deep .p-overlaypanel  .p-card span {
+    color: black;
+}
+:host ::ng-deep .p-overlaypanel-content{
+    width: 500px;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-header > a {
+  padding: 1.25rem;
+  border: none;
+  color: white;
+  background: transparent;
+  font-weight: 700;
+  border-radius: 6px;
+  transition: box-shadow 0.2s;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content {
+    padding: 0.25rem 0;
+    border: 1px solid #00090e;
+    background: #00090e;
+    color: #ffffff;
+    margin-bottom: 0;
+    border-top: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+  font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-panel  .pi-chevron-down:before {
+  content: none;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-header > a:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: none;
+  background-color: #355e74;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: none;
+  border-radius: 6px;
+  background-color: #355e74;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-panel  .pi-chevron-right:before {
+  content: none;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-header > a .p-panelmenu-icon {
+  margin-right: 0;
+}
+:host ::ng-deep .p-panelmenu .p-panelmenu-header.p-highlight:not(.p-disabled) > a:hover {
+  border-color: #6bf36b;
+  background: #355e74;
+  color: #ffffff;
+}
+:host ::ng-deep .p-panelmenu .p-panelmenu-header:not(.p-highlight):not(.p-disabled) > a:hover {
+  border-color: #6bf36b;
+  background: #355e74;
+  color: #ffffff;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link .p-menuitem-text {
+  color: #dbe5eb;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link .p-menuitem-icon {
+  color: #dbe5eb;
+  margin-right: 0.5rem;
+}
+:host ::ng-ddeep .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link {
+  padding: 0.75rem 1.25rem;
+  color: #495057;
+  border-radius: 5px;
+  transition: box-shadow 0.2s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link:not(.p-disabled):hover {
+  /* background: none; */
+  background: #ebf1f5;
+  border-radius: 5px;
+
+
+
+}
+:host ::ng-deep .p-panelmenu .p-menuitem-text {
+  font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+  font-weight: 400;
+}
+
+.pi-check-circle{
+ font-size: 1.5rem;
+ overflow: hidden;
+}
+
+.true{
+  color: rgb(180, 180, 180)
+}
+
+.false{
+  color: rgb(9, 212, 9)
+}
+
+.icon-container{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fecha_notificacion{
+    color: gray;
+}
+
+.notis{
+ margin-bottom: 0.5rem;
+ cursor: pointer;
+}
+
+.notis-empty{
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-toggle::after{
+    display: none;
+  }
+
+.content_notificacion{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-bg{
+  background-color: red;
+}
+
+:host ::ng-deep .p-overlaypanel-content .content_notificacion .p-scrollpanel .p-scrollpanel-content .p-card{
+  background-color: orange;
+}
+
+.dropdown-menu {
+  --bs-dropdown-link-active-color: #fff;
+  --bs-dropdown-link-active-bg: none;
+}

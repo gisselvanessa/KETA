@@ -1,0 +1,49 @@
+<!-- <app-header></app-header> -->
+<div class="bg">
+
+    <div class="container">
+        <div class="login_container">
+
+            <div class="d-flex" style="flex-direction: column; align-items: center;">
+                <img src="../../../../assets/ketav2.svg" width="150px" alt="">
+                <img src="../../../../assets/helpdesk1.jpg" width="350px" alt="">
+            </div>
+            <div class="login_data">
+                <h1 class="login_title">Iniciar sesión</h1>
+                <div>
+                    <div class="spacer">
+                        <div class="form-group">
+                            <label for="Email">Correo electrónico</label>
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="fa-regular fa-envelope"></i></span>
+                                <input tooltipPosition="right" tooltipEvent="focus" [(ngModel)]="email" pInputText
+                                    placeholder="Ingrese correo electrónico">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="spacer">
+                        <label for="password">Contraseña</label>
+                        <div class="p-inputgroup">
+                            <span style="cursor: pointer;" (click)="togglePasswordVisibility()" class="p-inputgroup-addon"><i class="{{ showPassword ? 'pi pi-eye-slash' : 'pi pi-eye' }}"></i></span>
+                            <input [type]="showPassword ? 'text' : 'password'" pPassword name="password" [(ngModel)]="password" [feedback]="false"
+                                placeholder="Ingrese contraseña" (keydown.enter)="Login()" />
+                            </div>
+                    </div>
+                    
+                    <div class="spacer">
+                        <button pButton pRipple type="submit" (click)="Login()" class="p-button-raised">
+                            <div *ngIf="!spinnerLoad"> Ingresar </div>
+                            <p-progressSpinner *ngIf="spinnerLoad == true" strokeWidth="7"
+                                [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+
+                        </button>
+
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

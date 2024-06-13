@@ -1,0 +1,141 @@
+<div class="container">
+    <div class="p-grid p-dir-col">
+        <div class="text-center">
+            <p-avatar [label]="avatar_name" styleClass="mr-2" size="xlarge"
+                [style]="{'background-color': '#9c27b0', 'color': '#ffffff'}" shape="circle"></p-avatar>
+            <h1 style="margin-top: 10px;">{{ local_data.nombres | uppercase }} {{ local_data.apellidos | uppercase }}
+            </h1>
+        </div>
+        <!-- Contenido de la vista del perfil -->
+        <div class="row m-y-24 p-t-24">
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Sucursal</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-city"></i></span>
+                    <input disabled type="text" pInputText placeholder="Sucursal" [(ngModel)]="local_data.sucursal">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Departamento</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-building"></i></span>
+                    <input disabled type="text" pInputText placeholder="Departamento"
+                        [(ngModel)]="local_data.departamento">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Cargo</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-user-tie"></i></span>
+                    <input disabled type="text" pInputText placeholder="Cargo" [(ngModel)]="local_data.cargo">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Rol</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-user-check"></i></span>
+                    <input disabled type="text" pInputText placeholder="Rol" [(ngModel)]="local_data.rol">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Tipo Identificación</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-id-card-clip"></i></span>
+                    <input disabled type="text" pInputText placeholder="Tipo Identificación"
+                        [(ngModel)]="local_data.descripciontipoidentificacion">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Identificación</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-id-card"></i></span>
+                    <input disabled type="text" pInputText placeholder="Identificación"
+                        [(ngModel)]="local_data.identificacion">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Tipo Persona</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-person"></i></span>
+                    <input disabled type="text" pInputText placeholder="Tipo Persona"
+                        [(ngModel)]="local_data.descripciontipopersona">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Género</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-venus-mars"></i></span>
+                    <input disabled type="text" pInputText placeholder="Género"
+                        [(ngModel)]="local_data.descripciongenero">
+                </div>
+            </div>
+            
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Celular</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-mobile"></i></span>
+                    <input disabled type="text" pInputText [maxLength]="10" [(ngModel)]="local_data.celular">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="telefono" class="block">Teléfono</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-phone"></i></span>
+                    <input disabled type="text" pInputText [maxLength]="10" [(ngModel)]="local_data.telefono">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="correo" class="block">Correo electrónico</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-regular fa-envelope"></i></span>
+                    <input disabled type="text" pInputText placeholder="Username" [(ngModel)]="local_data.email">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Dirección</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-map-pin"></i></span>
+                    <input disabled type="text" pInputText placeholder="Dirección" [(ngModel)]="local_data.direccion">
+                </div>
+            </div>
+            
+      
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Fecha de Registro</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-calendar-days"></i></span>
+
+                    <input disabled type="text" pInputText placeholder="Fecha de Registro"
+                        [value]="formatTimestamp(local_data.date_joined)">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Fecha de Modificación</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-calendar-days"></i></span>
+
+                    <input disabled type="text" pInputText placeholder="Fecha de Modificación"
+                        [value]="formatTimestamp(local_data.fechamodificacion)">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="apellido" class="block">Último Inicio de Sesión</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-calendar-days"></i></span>
+
+                    <input disabled type="text" pInputText placeholder="Último Inicio de Sesión"
+                        [value]="formatTimestamp(local_data.last_login)">
+                </div>
+            </div>
+        </div>
+        <div class="field flex text-center" style="margin-top: 15px;">
+            
+            <button type="button"  (click)="edit()" class="p-button p-button-secondary">
+                Editar <i class="pi pi-pencil" style="margin-left: 10px;"></i></button>
+                <p-progressSpinner *ngIf="spinnerLoad == true" strokeWidth="7"
+                [style]="{width: '25px', height: '25px'}" animationDuration=".5s"></p-progressSpinner>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

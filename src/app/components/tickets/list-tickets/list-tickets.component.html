@@ -1,0 +1,215 @@
+<div class="list-user-container">
+    <div class="container-fluid">
+        <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+    </div>
+    <br>
+    <div class="list">
+        <div class="first-pb">
+            <p-progressBar *ngIf="spinnerLoad2" mode="indeterminate" [style]="{'height': '5px'}"></p-progressBar>
+        </div>
+
+        <p-table #dt1 [value]="listaTicketsFilter" dataKey="id" [paginator]="true" [rows]="5" [scrollable]="true"
+            scrollHeight="500px" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+            [rowsPerPageOptions]="[5,15,50]"
+            [globalFilterFields]="['codigo','titulo_tarea','cedula','sucursal','persona','tipo_reclamo','tipo_comentario','fechaentrega', 'prioridad', 'nombre_cliente','apellido_cliente', 'estado','identificacion']"
+            class="scrollable-table">
+
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <div>
+                        <button style="margin-right: 10px;" pButton label="Limpiar" class="p-button-outlined blue" icon="fa-solid fa-filter"
+                        (click)="clear(dt1)"></button>
+                        <button pButton label="Exportar" class="p-button-outlined blue" icon="fa-solid fa-file-excel"
+                        (click)="descargarExcel()"></button>
+                    </div>
+                    <div class="d-flex">
+                        <div style="margin-right: 10px;">
+                            <p-dropdown [options]="sucursales" name="sucursalseleccionada"
+                                [(ngModel)]="sucursalseleccionada" [ngModelOptions]="{ standalone: true }"
+                                placeholder="Seleccione una agencia" optionLabel="nombresucursal" [autofocus]="true"
+                                (onChange)="sucursalobtenida()"></p-dropdown>
+                        </div>
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="handleFilter($event)" placeholder="Búsqueda" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="codigo" style="min-width: 120px;">Ticket No. <p-sortIcon
+                            field="codigo"></p-sortIcon></th>
+                    <th pSortableColumn="sucursal" style="min-width: 182px;">Agencia <p-sortIcon
+                            field="sucursal"></p-sortIcon></th>
+                    <th pSortableColumn="cedula" style="min-width: 182px;">Cédula <p-sortIcon
+                            field="cedula"></p-sortIcon></th>
+                    <th pSortableColumn="nombre_cliente" style="min-width: 182px;">Persona <p-sortIcon
+                            field="nombre_cliente"></p-sortIcon></th>
+
+                    <th pSortableColumn="titulo_tarea" style="min-width: 182px;">Título <p-sortIcon
+                            field="titulo_tarea"></p-sortIcon></th>
+                    <th pSortableColumn="tipo_reclamo" style="min-width: 182px;">Tipo Reclamo<p-sortIcon
+                            field="tipo_reclamo"></p-sortIcon></th>
+                    <th pSortableColumn="creador" style="min-width: 182px;">Creador<p-sortIcon
+                            field="tipo_reclamo"></p-sortIcon></th>
+                    <th pSortableColumn="creador" style="min-width: 182px;">Responsable<p-sortIcon
+                            field="tipo_reclamo"></p-sortIcon></th>
+                    <th pSortableColumn="tipo_comentario" style="min-width: 150px;">Tipo comentario <p-sortIcon
+                            field="tipo_comentario"></p-sortIcon></th>
+                    <th pSortableColumn="prioridad" style="min-width: 120px;">Prioridad <p-sortIcon
+                            field="prioridad"></p-sortIcon></th>
+                    <th pSortableColumn="estado" style="min-width: 120px;">Estado <p-sortIcon
+                            field="estado"></p-sortIcon></th>
+                    <th pSortableColumn="fecha_asignacion" style="min-width: 120px;">Fecha creación <p-sortIcon
+                            field="fecha_asignacion"></p-sortIcon></th>
+                    <th pSortableColumn="fechaentrega" style="min-width: 120px;">Fecha entrega <p-sortIcon
+                            field="fechaentrega"></p-sortIcon></th>
+                    <th pSortableColumn="archivo" style="min-width: 90px;">Documentos </th>
+                </tr>
+
+            </ng-template>
+
+            <ng-template pTemplate="body" let-ticket>
+
+                <tr>
+
+                    <td>{{ ticket.codigo }}</td>
+                    <td>{{ ticket.sucursal }}</td>
+                    <td>{{ ticket.cedula }}</td>
+                    <td>{{ ticket.nombre_cliente }}</td>
+                    <td>{{ ticket.titulo_tarea }}</td>
+                    <td>{{ ticket.tipo_reclamo }}</td>
+                    <td>{{ ticket.creador }}</td>
+                    <td>{{ ticket.nombres_tecnico ?ticket.nombres_tecnico :'Sin definir' }}</td>
+                    <td>{{ ticket.tipo_comentario }}</td>
+                    <td>{{ ticket.prioridad }}</td>
+                    <td>{{ticket.estado}}</td>
+                    <td>{{ formatTimestamp(ticket.fecha_asignacion)}}</td>
+                    <td>{{ formatTimestamp(ticket.fechaentrega)}}</td>
+                    <td>
+                        <div style=" position: relative;" class="speeddial-linear-demo"><p-speedDial [model]="items2"
+                                direction="left" showIcon="pi pi-ellipsis-h"
+                                (onClick)="tareaEscogidalist(ticket)"></p-speedDial></div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="14">No hay tickets creados</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<!-- Modal para mostrar lista de archivos -->
+<p-dialog (onHide)="cerrarModalAsignacion()" [(visible)]="mostrarModalArchivos" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '45vw'}">
+    <div *ngIf="flag==0">
+        <h2>Lista de documentos adjuntos Ticket #{{tareaEscogida.tarea}}</h2>
+
+        <!-- Mostrar el spinner cuando los archivos se están cargando -->
+        <div class="spinner-container" *ngIf="cargandoArchivos">
+            <p-progressSpinner styleClass="custom-spinner" strokeWidth="7"
+                [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+        </div>
+
+        <p-table [paginator]="true" [rows]="3" [value]="listaArchivos" *ngIf="!cargandoArchivos">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Archivo</th>
+                    <th>Descripción</th>
+                    <th>Ver</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-formData let-index>
+                <tr>
+                    <td>{{ formData.nombrearchivo }}</td>
+                    <td>{{ formData.descripcionarchivo }}</td>
+                    <td>
+                        <div class="spacer_spinner">
+                            <button pButton type="button" style="background-color: #6f2b70; border: 1px solid #6f2b70;"
+                                (click)="openPDF(formData)" icon="pi pi-file-pdf"></button>
+                            <p-progressSpinner *ngIf="formData.showspinner" strokeWidth="7"
+                                [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="3">No hay archivos</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <br>
+        <div class="w-100  d-flex justify-content-end">
+            <button pButton pRipple type="button" class="p-button-secondary" icon="fa-solid fa-file-arrow-up"
+                (click)="subirArchivos()" label="Subir Archivo"></button>
+
+        </div>
+    </div>
+    <div *ngIf="flag == 1">
+        <h2>Subir archivo</h2>
+
+
+        <label for="activityFile">Descripción del Archivo</label>
+        <div class="p-inputgroup">
+            <input type="text" [(ngModel)]="descripcionArchivo" pInputText placeholder="Descripción del archivo"
+                id="descripcionArchivo">
+        </div>
+        <div>
+            <br>
+            <label for="activityFile">Adjuntar Archivo</label>
+            <p-fileUpload [files]="myfiles" name="activityFile" [customUpload]="true" [maxFileSize]="5242880"
+                accept=" application/pdf" (uploadHandler)="myUploaderTicket($event)">
+
+            </p-fileUpload>
+        </div>
+        <br>
+        <div class="w-100  d-flex justify-content-end">
+            <p-progressSpinner *ngIf="spinnerLoad3 == true" styleClass="custom-spinner" strokeWidth="7"
+                [style]="{width: '25px', height: '25px'}" fill="var(--surface-ground)"
+                animationDuration=".5s"></p-progressSpinner>
+
+            <!-- <button pButton pRipple type="button" (click)="cerrarModalVerActividad()" icon="pi pi-times" label="Cancelar" class="p-button-secondary" style="background-color: #4e1e4f;"></button> -->
+            <button pButton pRipple type="button" (click)="volverListaDocumentos()" icon="pi pi-arrow-left"
+                label="Atrás" class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+        </div>
+    </div>
+
+</p-dialog>
+
+<!-- Modal para generar excel -->
+<p-dialog header="Descargar Reporte: {{sucursalseleccionada.nombresucursal}}" (onHide)="cerrarModalExcel()" [(visible)]="mostrarModalExcel" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '30vw'}">
+    <div style="margin-top:15px; display:flex; flex-direction: column; gap: 1rem;">
+       <div>
+        <div  style="margin-bottom: 5px; font-weight: 500;">Escoge una opción</div>
+        <p-dropdown appendTo="body" [options]="options" (onChange)="changeOption()" [(ngModel)]="selectedOption" placeholder="Seleccione una opción" optionLabel="name"></p-dropdown>
+    
+       </div>
+        <div *ngIf="optionIndex==1" class="dates">
+            <div class="">
+                <p-calendar  appendTo="body" dateFormat="yy-mm-dd" [(ngModel)]="dateInicio" [maxDate]="maxDateValue"
+                    [showIcon]="true" inputId="icon" placeholder="Fecha inicio"></p-calendar>
+            </div>
+
+            <div class="">
+                <p-calendar  appendTo="body" dateFormat="yy-mm-dd" [(ngModel)]="dateFin" [maxDate]="maxDateValue"
+                    [minDate]="dateInicio" [showIcon]="true" inputId="icon" placeholder="Fecha final"></p-calendar>
+            </div>
+        </div>
+        <div class="buttons">
+            <p-progressSpinner *ngIf="spinnerLoad2 == true" styleClass="custom-spinner" strokeWidth="7"
+                [style]="{width: '25px', height: '25px'}" animationDuration=".5s"></p-progressSpinner>
+            <p-button [disabled]="(disabledDownload =='Por fechas' && dateInicio==''  && dateFin=='') || !selectedOption " (onClick)="descargar()" label="Descargar" icon="fa-solid fa-download"></p-button>
+        </div>
+    </div>
+        
+
+</p-dialog>

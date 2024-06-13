@@ -1,0 +1,169 @@
+  /* Global styles */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+  body {
+      margin: 0;
+      background-color: #f0f2f5;
+      font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  ul,
+  li {
+      margin: 0;
+      padding: 0;
+      box-sizing: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      list-style: none;
+  }
+
+  h2 {
+      text-align: center;
+      margin-bottom: 20px;
+  }
+  h3{
+    color: #7048e8;
+
+  }
+  .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+  }
+
+  .flex {
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .flex-row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+  }
+
+  :host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only {
+      width: 3.5rem;
+      height: 3.5rem;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+      z-index: 2000;
+  }
+
+  :host ::ng-deep {
+      .speeddial-linear-demo {
+          .p-speeddial-direction-up {
+              left: calc(50% - 2rem);
+              bottom: 0;
+          }
+
+          .p-speeddial-direction-down {
+              left: calc(50% - 2rem);
+              top: 0;
+          }
+
+          .p-speeddial-direction-left {
+              right: calc(50% - 1.1rem);
+              top: calc(50% - 1.1rem);
+          }
+
+          .p-speeddial-direction-right {
+              left: 0;
+              top: calc(50% - 2rem);
+          }
+      }
+  }
+
+  :host ::ng-deep .p-speeddial-action {
+      width: 2.2rem;
+      height: 2.2rem;
+  }
+
+  :host ::ng-deep .p-dialog .p-dialog-header {
+      border-bottom: 0 none;
+      background: #ffffff;
+      color: #343a40;
+      padding: 1rem;
+      padding-bottom: 0;
+      border-top-right-radius: 6px;
+      border-top-left-radius: 6px;
+  }
+
+  :host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only .p-button-icon {
+      font-size: 1.1rem;
+  }
+
+  :host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only {
+      width: 2.2rem;
+      height: 2.2rem;
+  }
+
+  :host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only {
+      background-color: var(--cyan-600);
+      border: 1px solid var(--cyan-600);
+  }
+
+  :host ::ng-deep .first-pb  .p-progressbar .p-progressbar-value {
+    border: 0 none;
+    margin: 0;
+    background: #f79646;
+  }
+
+  :host ::ng-deep .p-fileupload .p-button {
+    /* Estilos para el botón principal */
+    background-color: #f79646; /* Cambia el color de fondo según tus preferencias */
+    color: #ffffff; /* Cambia el color del texto según tus preferencias */
+    border: 1px solid #f79646;
+  }
+
+  :host ::ng-deep .blue  {
+    background: transparent;
+    border: 1px solid #3B82F6;
+    color: #3B82F6;
+  }
+  .spacer_spinner {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .dates {
+    display: flex;
+    gap: 1rem;
+}
+.buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+:host ::ng-deep .p-button-icon-only {
+    background: var(--cyan-500);
+    border: var(--cyan-500);
+
+}
+
+:host ::ng-deep .p-button-icon-only:hover {
+    background: var(--cyan-500);
+    border: var(--cyan-500);
+    filter: brightness(1.05);
+
+}
+
+:host ::ng-deep p-button .p-element {
+    background: var(--cyan-600);
+    border: var(--cyan-600);
+}
+
+:host ::ng-deep p-button .p-element:hover {
+    background: var(--cyan-600);
+    border: var(--cyan-600);
+    filter: brightness(1.05);
+}

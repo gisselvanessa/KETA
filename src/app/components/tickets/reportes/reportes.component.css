@@ -1,0 +1,71 @@
+  /* Global styles */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+  body {
+      margin: 0;
+      background-color: #f0f2f5;
+      font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  p,
+  ul,
+  li {
+      margin: 0;
+      padding: 0;
+      box-sizing: 0;
+  }
+
+  .flex {
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .dash_container {
+      width: calc(100vw - 260px);
+  }
+
+  .dates_container {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 0rem;
+  }
+
+  .dates {
+      display: flex;
+      gap: 1rem;
+  }
+
+  .buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+  }
+
+  :host ::ng-deep .p-button-icon-only {
+      background: var(--cyan-500);
+      border: var(--cyan-500);
+
+  }
+
+  :host ::ng-deep .p-button-icon-only:hover {
+      background: var(--cyan-500);
+      border: var(--cyan-500);
+      filter: brightness(1.05);
+
+  }
+
+  :host ::ng-deep p-button .p-element {
+      background: var(--cyan-600);
+      border: var(--cyan-600);
+  }
+
+  :host ::ng-deep p-button .p-element:hover {
+      background: var(--cyan-600);
+      border: var(--cyan-600);
+      filter: brightness(1.05);
+  }
+

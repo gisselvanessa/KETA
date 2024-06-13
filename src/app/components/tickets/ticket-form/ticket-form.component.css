@@ -1,0 +1,379 @@
+/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+body {
+  margin: 0;
+  background-color: #f0f2f5;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+  padding: 0;
+  box-sizing: 0;
+  /* color: #7048e8; */
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+ul,
+li {
+  font-family: 'Poppins', Arial, sans-serif;
+  list-style: none;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #7048e8;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+td {
+  width: 50%;
+}
+
+label {
+  display: block;
+  color: #333;
+  margin-bottom: 5px;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+button {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 400;
+}
+
+input {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14.1px;
+  height: 50px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-column {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 10px;
+}
+
+
+:host ::ng-deep p-breadcrumb p-component {
+  width: 100%;
+}
+
+:host ::ng-deep p-dropdown .p-dropdown-label.p-placeholder {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.table-data {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.reclamo-title {
+  margin-top: 2rem;
+}
+
+.sucursal_drop {
+  width: auto;
+}
+
+.descripcionarchivo {
+  margin-bottom: 1rem;
+}
+
+:host::ng-deep .p-panel {
+  width: 900px;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+:host ::ng-deep p-dropdown {
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  flex: 1;
+  height: 50px;
+}
+
+:host ::ng-deep .p-dropdown .p-component .p-dropdown-clearable {
+  height: 50px;
+
+}
+
+:host ::ng-deep .p-calendar {
+  width: 100%;
+
+}
+
+:host ::ng-deep .p-calendar .p-component {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14.4px;
+}
+
+:host ::ng-deep .p-dropdown .p-component {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+}
+
+:host ::ng-deep .p-dropdown .p-element .p-inputwrapper {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+}
+
+.footer_modal {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.fecha {
+  background-color: rgb(243, 243, 243);
+  padding: 1.3rem;
+  padding-top: 1rem;
+  border-radius: 15px;
+
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex_center {
+  display: flex;
+}
+
+.container {
+  font-family: 'Poppins', Arial, sans-serif;
+  min-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 3rem;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.btn-group-register {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0rem;
+  gap: 1rem;
+}
+
+.data-title {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 400;
+}
+
+.asign {
+  margin-top: 1rem;
+}
+
+.p-button-rounded {
+  font-weight: 200;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+  padding: 0.5rem;
+}
+
+.button-update,
+button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.p-inputtext {
+  font-size: 0.9rem;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+.close-button {
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: red;
+  padding: 0;
+  margin: 0;
+}
+
+.register_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  padding: 1.5rem;
+}
+
+.modalElegirEstado {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Primary button with color #7048e8 (Soft purple) */
+.btn-primary {
+  background-color: #4e1e4f;
+  color: #fff;
+}
+
+.btn-success {
+  width: 5rem;
+  background-color: #4e1e4f;
+}
+
+/* Secondary button with a complementary color #8258a1 (A darker purple) */
+.btn-secondary {
+  background-color: #4e1e4f;
+  color: #fff;
+}
+
+/* Danger button with a complementary color #8e609a (A deep violet) */
+.btn-danger {
+  background-color: #4e1e4f;
+  color: #fff;
+}
+
+/* Optional: Hover effect for buttons */
+.button-update:hover,
+button:hover {
+  background-color: #5d3bb3;
+}
+
+/* Asegura que los p-dropdown y input tengan el mismo ancho utilizando flex */
+:host ::ng-deep .p-dropdown,
+input {
+  height: 50px;
+  width: 100%;
+}
+
+.ticket-form-container {
+  width: calc(100vw - 260px);
+}
+
+:host ::ng-deep .p-inputtextarea {
+  width: 100%;
+}
+
+.register-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.card {
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 2rem;
+  border: none;
+
+}
+
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes custom-progress-spinner-color {
+
+  100%,
+  0% {
+    stroke: #16697A;
+  }
+
+  40% {
+    stroke: #489FB5;
+  }
+
+  66% {
+    stroke: #82C0CC;
+  }
+
+  80%,
+  90% {
+    stroke: #FFA62B;
+  }
+}
+
+@keyframes custom-progress-spinner-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+:host ::ng-deep .p-fileupload .p-button {
+  /* Estilos para el botón principal */
+  background-color: #f79646; /* Cambia el color de fondo según tus preferencias */
+  color: #ffffff; /* Cambia el color del texto según tus preferencias */
+  border: 1px solid #f79646;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.spacer_spinner {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}

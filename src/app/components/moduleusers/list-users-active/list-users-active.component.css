@@ -1,0 +1,126 @@
+  /* Global styles */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+  body {
+    margin: 0;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', Arial, sans-serif;
+    /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  p,
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* CSS para bloquear toda la pantalla */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  z-index: 9999; /* Asegura que esté en la parte superior */
+}
+
+.loading-indicator {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.loading-spinner {
+  display: inline-block;
+}
+
+:host ::ng-deep .first-pb  .p-progressbar .p-progressbar-value {
+  border: 0 none;
+  margin: 0;
+  background: #f79646;
+}
+:host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only {
+  background-color: var(--cyan-600);
+  border: 1px solid var(--cyan-600);
+}
+
+.btn-success {
+  width: 5rem;
+  background-color: #4e1e4f;
+}
+:host ::ng-deep .p-speeddial-action {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+:host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+:host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only .p-button-icon {
+  font-size: 1.1rem;
+}
+:host ::ng-deep {
+
+
+  .speeddial-linear-demo {
+    .p-speeddial-direction-up {
+      left: calc(50% - 2rem);
+      bottom: 0;
+    }
+
+    .p-speeddial-direction-down {
+      left: calc(50% - 2rem);
+      top: 0;
+    }
+
+    .p-speeddial-direction-left {
+      right: calc(50% - 1.1rem);
+      top: calc(50% - 1.1rem);
+    }
+
+    .p-speeddial-direction-right {
+      left: 0;
+      top: calc(50% - 2rem);
+    }
+  }
+}
+
+.bg-light-primary {
+  background-color: rgb(188, 248, 240);
+  color: rgb(25, 138, 121);
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 0.2rem;
+  border-radius: 5px;
+ 
+ }
+ 
+ .bg-light-error {
+     background-color: rgb(248, 197, 188);
+     color: rgb(207, 78, 78);
+     font-family: 'Poppins', Arial, sans-serif;
+     font-size: 12px;
+  text-transform: uppercase;
+  padding: 0.2rem;
+  border-radius: 5px;
+ 
+ }

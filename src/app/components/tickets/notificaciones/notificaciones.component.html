@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+</div>
+<br>
+<div>
+    <div class="notis-empty" *ngIf="notificationFlag === 2;">
+        <img src="../../../../assets/empty-notifications.png" alt="notifications_empty">
+        <h1 style="color: black;">No tienes notificaciones</h1>
+    </div>
+
+    <div class="notis-spinner" *ngIf="notificationspinner === true;">
+        <p-progressSpinner *ngIf="notificationspinner === true;" [style]="{width: '40px', height: '40px'}"
+            strokeWidth="5"></p-progressSpinner>
+    </div>
+    <div>
+        <div class="notis" *ngFor="let notification of notifications">
+            <p-card *ngIf="notification.status == false" [style]="{'background-color': 'white'}"
+                (click)="notificationUpdate(notification)">
+                <div class="card-content2">
+                    <div class="flex-btw">
+                        <h2>{{notification.notification_type}}</h2>
+                        <span class="fecha_notificacion">{{formatTimestamp(notification.created_at)}}</span>
+
+                    </div>
+                    <p>{{notification.message}}</p>
+                </div>
+            </p-card>
+
+            <p-card (click)="notificationUpdate(notification)" *ngIf="notification.status == true"
+                [style]="{'background-color': 'rgb(247, 247, 250)'}" (click)="notificationUpdate(notification)">
+                <div class="card-content2">
+                    <div class="flex-btw">
+                        <h2>{{notification.notification_type}}</h2>
+                        <span class="fecha_notificacion">{{formatTimestamp(notification.created_at)}}</span>
+                    </div>
+                    <p>{{notification.message}}</p>
+                </div>
+            </p-card>
+        </div>
+    </div>
+</div>

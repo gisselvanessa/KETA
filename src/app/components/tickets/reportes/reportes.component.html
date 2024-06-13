@@ -1,0 +1,106 @@
+<div class="dash_container">
+
+    <div class="container-fluid">
+        <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+    </div>
+    <div>
+        <div class="dates_container">
+            <div class="dates">
+                <div class="">
+                    <p-calendar dateFormat="yy-mm-dd" [(ngModel)]="dateInicio" [maxDate]="maxDateValue"
+                        [showIcon]="true" inputId="icon" placeholder="Fecha inicio"></p-calendar>
+                </div>
+
+                <div class="">
+                    <p-calendar dateFormat="yy-mm-dd" [(ngModel)]="dateFin" [maxDate]="maxDateValue"
+                        [minDate]="dateInicio" [showIcon]="true" inputId="icon" placeholder="Fecha final"></p-calendar>
+                </div>
+            </div>
+            <div class="buttons">
+                <p-progressSpinner *ngIf="spinnerLoad2 == true" styleClass="custom-spinner" strokeWidth="7"
+                    [style]="{width: '25px', height: '25px'}" animationDuration=".5s"></p-progressSpinner>
+                <p-button label="Ver" icon="pi pi-eye" (onClick)="ver()"></p-button>
+                <p-button label="Descargar" icon="pi pi-file" [loading]="loading[0]" (onClick)="load(0)"></p-button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="activeIndex==1">
+    <p-table #dt1 [value]="listaReporte" dataKey="id" [paginator]="true" [rows]="5" [scrollable]="true"
+        scrollHeight="500px" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [rowsPerPageOptions]="[5,15,50]"
+        [globalFilterFields]="['tipoidentificacionsujeto','identificacionsujeto','nomapellidonomrazonsocial','canalrecepcion','fecharecepcion','tipotransaccion', 'concepto', 'estadoreclamo','fecharespuesta', 'tiporesolucion','montorestituido', 'interesmonto', 'totalrestituido']"
+        class="scrollable-table">
+
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pButton label="Limpiar" class="p-button-outlined" icon="fa-solid fa-filter"
+                    (click)="clear(dt1)"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="handleFilter($event)" placeholder="Búsqueda" />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="tipoidentificacionsujeto" style="min-width: 150px;">Tipo identificacion <p-sortIcon
+                        field="tipoidentificacionsujeto"></p-sortIcon> </th>
+                <th pSortableColumn="identificacionsujeto" style="min-width: 182px;">Identificación <p-sortIcon
+                        field="identificacionsujeto"></p-sortIcon></th>
+                <th pSortableColumn="nomapellidonomrazonsocial" style="min-width: 182px;">Persona/Razon social
+                    <p-sortIcon field="nomapellidonomrazonsocial"></p-sortIcon> </th>
+                <th pSortableColumn="canalrecepcion" style="min-width: 182px;">Canal Recepción <p-sortIcon
+                        field="canalrecepcion"></p-sortIcon></th>
+                <th pSortableColumn="fecharecepcion" style="min-width: 150px;">Fecha recepción <p-sortIcon
+                        field="fecharecepcion"></p-sortIcon></th>
+                <th pSortableColumn="tipotransaccion" style="min-width: 120px;">Tipo transacción <p-sortIcon
+                        field="tipotransaccion"></p-sortIcon></th>
+                <th pSortableColumn="concepto" style="min-width: 120px;">Concepto <p-sortIcon
+                        field="concepto"></p-sortIcon></th>
+                <th pSortableColumn="estadoreclamo" style="min-width: 120px;">Estado reclamo <p-sortIcon
+                        field="estadoreclamo"></p-sortIcon> </th>
+                <th pSortableColumn="fecharespuesta" style="min-width: 120px;">Fecha respuesta <p-sortIcon
+                        field="fecharespuesta"></p-sortIcon></th>
+                <th pSortableColumn="tiporesolucion" style="min-width: 120px;">Tipo resolución <p-sortIcon
+                        field="tiporesolucion"></p-sortIcon></th>
+                <th pSortableColumn="montorestituido" style="min-width: 120px;">Monto restituido <p-sortIcon
+                        field="montorestituido"></p-sortIcon> </th>
+                <th pSortableColumn="interesmonto" style="min-width: 120px;">Interés monto <p-sortIcon
+                        field="interesmonto"></p-sortIcon></th>
+                <th pSortableColumn="totalrestituido" style="min-width: 120px;">Total restituido <p-sortIcon
+                        field="totalrestituido"></p-sortIcon> </th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-reporte>
+            <tr>
+
+                <td>{{ reporte.tipoidentificacionsujeto }}</td>
+                <td>{{ reporte.identificacionsujeto }}</td>
+                <td>{{ reporte.nomapellidonomrazonsocial }}</td>
+                <td>{{ reporte.canalrecepcion }}</td>
+                <td>{{formatTimestampTable( reporte.fecharecepcion )}}</td>
+                <td>{{ reporte.tipotransaccion }}</td>
+                <td>{{reporte.concepto}}</td>
+                <td>{{reporte.estadoreclamo}}</td>
+                <td>{{formatTimestampTable(reporte.fecharespuesta)}}</td>
+                <td>{{reporte.tiporesolucion}}</td>
+                <td>{{reporte.montorestituido}}</td>
+                <td>{{reporte.interesmonto}}</td>
+                <td>{{reporte.totalrestituido}}</td>
+
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="2">No existen datos.</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>
+<p-toast></p-toast>

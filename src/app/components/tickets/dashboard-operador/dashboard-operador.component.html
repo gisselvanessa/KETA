@@ -1,0 +1,38 @@
+<div class="dash_container">
+    <div class="container-fluid">
+        <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+    </div>
+
+    <app-ticket-table-operador (informacionEnviada)="recibirInformacion($event)"></app-ticket-table-operador>
+</div>
+
+<p-dialog (onHide)="cerrarModalDetalleTarea()" [(visible)]="mostrarModalAsignacion" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '30vw'}">
+    <ng-template pTemplate="header">
+    </ng-template>
+    <h2>Ticket #{{tareaDialog.numeroticket}}</h2>
+
+    <div class="grid">
+        <div>
+            <h4>Descripción: </h4>
+            <h4> Agencia: </h4>
+            <h4>Cliente:</h4>
+            <h4>Tipo: </h4>
+            <h4>Comentario: </h4>
+            <h4>Nota: </h4>
+        </div>
+        <div>
+            <h4> {{tareaDialog.descripciontarea}}</h4>
+            <h4> {{tareaDialog.nombresucursal}} </h4>
+            <h4> {{tareaDialog.persona}} </h4>
+            <h4> {{tareaDialog.tipoReclamo }} </h4>
+            <h4>{{tareaDialog.tipoComentario}} </h4>
+            <h4> {{tareaDialog.descripcionasunto}} </h4>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="cerrarModalDetalleTarea()" label="Cancelar"
+            class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+</p-dialog>

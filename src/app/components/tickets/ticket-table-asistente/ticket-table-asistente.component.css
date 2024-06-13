@@ -1,0 +1,208 @@
+/* @media (max-width: 768px) {
+   :host::ng-deep .p-panel {
+      width: 300px;
+    }
+  } */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+  body {
+      margin: 0;
+      background-color: #f0f2f5;
+      font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+  
+    }
+    body, h1, h2, h3, h4, p, ul, li {
+      margin: 0;
+      padding: 0;
+      box-sizing: 0;
+      /* color: #7048e8; */
+      font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+  
+  
+    }
+    /* tr > td :nth-child(1){
+      font-weight: bold;
+    } */
+  
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      /* color: #7048e8;  */
+    }
+    
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  .ticket-table-container{
+    padding: 1rem;
+  }
+  .p-inputtext{
+    font-size: 0.9rem;
+    font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+    width: 100%;
+    
+
+  }
+
+  .yellow{
+    background-color: rgb(255, 248, 143) ;
+    /* height: 15px; */
+    width: 100%;
+    border-radius: 5px;
+    padding: 3px;
+    
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+      }
+      .green{
+    background-color: rgb(89, 227, 133);
+    width: 100%;
+    border-radius: 5px;
+    padding: 3px;
+    
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    
+    
+      }
+      .red{
+        background-color: red;
+        padding: 3px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+      }
+      
+  .grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+:host ::ng-deep .p-inputtextarea {
+  width: 100%;
+  height: 14.4px;
+}
+
+  /* Estilos para el contenedor del panel */
+.ticket-table-container {
+    padding: 20px;
+    width: 100%;
+}
+
+/* Estilos para la tabla */
+.p-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+input{
+  font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+  /* width: calc(100%); */
+  font-size: 14.1px;
+  height: 50px;
+  padding: 10px;
+  border: 1px solid #ccc; /* Neutral border color */
+  border-radius: 4px;
+  background-color: #ffffff;
+  /* color: #969a9c;  */
+
+}
+:host ::ng-deep p-breadcrumb p-component{
+  width: 100%;
+}
+:host ::ng-deep p-dropdown .p-dropdown-label.p-placeholder {
+  /* color: #969a9c; */
+  font-family: 'Poppins', Arial, sans-serif; /* Usamos Poppins como primera opción y luego Arial si no está disponible */
+  font-size: 0.9rem;
+  font-weight: 400;
+  
+}
+/* Estilos para el pie de página */
+.card-footer {
+    /* text-align: center; */
+    padding: 10px;
+    background-color: #f8f9fa;
+    /* max-width: 900px; */
+    width: 100%;
+}
+
+/* Estilos para el mensaje de "No hay tickets asignados" */
+.p-datatable .p-datatable-tbody tr.empty-message {
+    font-style: italic;
+    color: #999;
+}
+
+
+.spacer_spinner{
+  display: flex;
+  gap:1rem;
+  /* justify-content: center; */
+  align-items: center;
+}
+:host ::ng-deep .p-speeddial-action {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+:host ::ng-deep .p-dialog .p-dialog-header {
+  border-bottom: 0 none;
+  background: #ffffff;
+  color: #343a40;
+  padding: 1rem;
+  padding-bottom: 0;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+:host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only .p-button-icon{
+  font-size: 1.1rem;
+}
+:host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only{
+  width: 2.2rem;
+  height: 2.2rem;
+}
+:host ::ng-deep .p-speeddial-button.p-button.p-button-icon-only{
+  background-color: var(--cyan-600);
+  border: 1px solid var(--cyan-600);
+}
+:host ::ng-deep {
+      
+      
+  .speeddial-linear-demo {
+      .p-speeddial-direction-up {
+          left: calc(50% - 2rem);
+          bottom: 0;
+      }
+
+      .p-speeddial-direction-down {
+          left: calc(50% - 2rem);
+          top: 0;
+      }
+
+      .p-speeddial-direction-left {
+          right: calc(50% - 1.1rem);
+          top: calc(50% - 1.1rem);
+      }
+
+      .p-speeddial-direction-right {
+          left: 0;
+          top: calc(50% - 2rem);
+      }
+  }
+}
+.spinner-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100%; /* Ajusta la altura al 100% para ocupar todo el espacio vertical */
+}
+
+
+:host ::ng-deep .first-pb  .p-progressbar .p-progressbar-value {
+  border: 0 none;
+  margin: 0;
+  background: #f79646;
+}

@@ -1,0 +1,162 @@
+/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+body {
+  margin: 0;
+  background-color: #f0f2f5;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  box-sizing: 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #7048e8;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+label {
+  display: block;
+  color: #333;
+  margin-bottom: 5px;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+button {
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+input {
+  font-family: 'Poppins', Arial, sans-serif;
+  height: 50px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #ffffff;
+
+}
+
+:host ::ng-deep p-dropdown .p-dropdown-label.p-placeholder {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.9rem;
+
+}
+
+:host ::ng-deep p-dropdown {
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  flex: 1;
+  height: 50px;
+
+}
+
+:host ::ng-deep .p-dropdown .p-component .p-dropdown-clearable {
+  flex: 1;
+  height: 50px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex_center {
+  display: flex;
+}
+
+.container {
+  font-family: 'Poppins', Arial, sans-serif;
+  min-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 3rem;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+
+}
+
+.btn-group-register {
+
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 1rem;
+}
+
+.button-update,
+button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.p-inputtext {
+  font-size: 0.9rem;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+.register_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+/* Primary button with color #7048e8 (Soft purple) */
+.btn-primary {
+  background-color: #4e1e4f;
+  color: #fff;
+}
+
+/* Secondary button with a complementary color #8258a1 (A darker purple) */
+.btn-secondary {
+  background-color: #4e1e4f;
+  color: #fff;
+}
+
+/* Danger button with a complementary color #8e609a (A deep violet) */
+.btn-danger {
+  background-color: #4e1e4f;
+  color: #fff;
+}
+
+/* Optional: Hover effect for buttons */
+.button-update:hover,
+button:hover {
+  background-color: #5d3bb3;
+}
+
+/* Asegura que los p-dropdown y input tengan el mismo ancho utilizando flex */
+:host ::ng-deep .p-dropdown,
+input {
+  flex: 1;
+  height: 50px;
+}

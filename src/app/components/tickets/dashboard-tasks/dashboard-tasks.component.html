@@ -1,0 +1,111 @@
+<div class="dash_container">
+    
+
+        
+    <div class="container-fluid">
+        <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+        <!-- Breadcrumbs-->
+    </div>
+            
+    <!-- Cards dashboard para las tareas en las que está trabajando -->
+    
+    <div class="">
+        <div class="">
+            <p-carousel [value]="listaTareaEstadoColor" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+                <ng-template pTemplate="header">
+                </ng-template>
+                <ng-template let-tarea pTemplate="item">
+                    <div class="product-item">
+                        <div class="product-item-content  {{tarea.color }}">
+                            <div>
+                                <h1>Ticket N° {{tarea.codigo}}</h1>
+                                <h3 class="mb-1">Id: {{tarea.no_ticket}}</h3>
+                                <h3 class="mb-1">{{tarea.titulo_ticket}}</h3>
+                                <h3 class="mb-1">Cliente: {{tarea.client}}</h3>
+                                <h4 class="mt-0 mb-3">{{tarea.descripcionprioridad}}</h4>
+                                <h4 *ngIf="!tarea.tiemporequerido">{{ formatTimestamp(tarea.tiempooptimo) }}</h4>
+                                <h4 *ngIf="tarea.tiemporequerido">{{ formatTimestamp(tarea.tiemporequerido) }}</h4>
+                                <div class="car-buttons mt-5">
+                                    <p-button  label="Mostrar" (click)="abrirModalDetalleTarea(tarea)" icon="pi pi-check"></p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+
+        </div>
+    </div>
+    <app-mis-tareas (informacionEnviada)="recibirInformacion($event)"></app-mis-tareas>
+</div>
+
+<!-- Ver detalles con vestadocolor -->
+
+ <p-dialog (onHide)="cerrarModalDetalleTarea()" [(visible)]="mostrarModalAsignacion" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <h2>Ticket {{tareaDialog.no_ticket}}</h2>
+
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="content">
+        <table class="info-table">
+            <tr>
+                <th>N°: </th>
+                <td>{{tareaDialog.codigo}}</td>
+            </tr>
+            <tr>
+                <th>Fecha de creación:</th>
+                <td>{{formatTimestamp(tareaDialog.fechaasignacion)}}</td>
+            </tr>
+            <tr>
+                <th>Título:</th>
+                <td>{{tareaDialog.titulo_ticket}}</td>
+            </tr>
+            <tr>
+                <th>Agencia:</th>
+                <td>{{tareaDialog.agencia}}</td>
+            </tr>
+            <tr>
+                <th>Cliente:</th>
+                <td>{{tareaDialog.client}}</td>
+            </tr>
+            <tr>
+                <th>Tipo de reclamo:</th>
+                <td>{{tareaDialog.descripciontipoticket}}</td>
+            </tr>
+            <tr>
+                <th>Tipo Comentario:</th>
+                <td>{{tareaDialog.descripciontipocomentario}}</td>
+            </tr>
+            <tr>
+                <th>Descripción asunto:</th>
+                <td>{{tareaDialog.descripcionasunto}}</td>
+            </tr>
+            <tr>
+                <th>Estado:</th>
+                <td>{{tareaDialog.descripcionestado}}</td>
+            </tr>
+            <tr>
+                <th>Prioridad:</th>
+                <td>{{tareaDialog.descripcionprioridad}}</td>
+            </tr>
+            <tr>
+                <th>Usuario responsable:</th>
+                <td>{{tareaDialog.usuario_asignado}}</td>
+            </tr>
+            <tr>
+                <th>Usuario que asigno:</th>
+                <td>{{tareaDialog.usuario_asignador}}</td>
+            </tr>
+            <tr>
+                <th>Fecha de entrega:</th>
+                <td *ngIf="!tareaDialog.tiemporequerido">{{formatTimestamp(tareaDialog.tiempooptimo)}}</td>
+                <td *ngIf="tareaDialog.tiemporequerido">{{formatTimestamp(tareaDialog.tiemporequerido)}}</td>
+            </tr>
+        </table>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="cerrarModalDetalleTarea()" label="Cerrar"
+            class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+</p-dialog> 

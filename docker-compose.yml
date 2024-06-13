@@ -1,0 +1,37 @@
+# version: '3'
+# services:
+#   # Servicio para construir la aplicación Angular
+#   builder:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: keta-front
+#     working_dir: /app
+#     command: ["npm", "run", "build"]
+#     # Puedes montar un volumen si deseas compartir el directorio de salida con tu host.
+#     # volumes:
+#     #   - ./dist:/app/dist
+
+#   # Servicio para servir la aplicación Angular con Nginx
+#   nginx:
+#     image: nginx:alpine
+#     container_name: nginx-angular
+#     ports:
+#       - "4200:82"
+#     # Enlazamos el servicio builder para copiar los archivos construidos al contenedor de Nginx.
+#     depends_on:
+#       - builder
+#     volumes:
+#       - ./dist/helpdesk:/usr/share/nginx/html
+
+
+########################
+
+version: '3'
+services:
+  keta-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"

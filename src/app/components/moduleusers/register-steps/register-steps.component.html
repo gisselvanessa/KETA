@@ -1,0 +1,320 @@
+<div class="container-fluid">
+    <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+</div>
+<div>
+
+</div>
+<div class="card">
+    <p-toast></p-toast>
+    <p-steps [model]="items1" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+</div>
+
+<div *ngIf="activeIndex==0">
+    <div class="container ">
+        <h2>Registrar nuevo usuario</h2>
+
+        <label for="sucursal">Sucursal</label>
+        <div class="">
+            <p-dropdown [options]="sucursales" name="sucursalseleccionada" [(ngModel)]="sucursalseleccionada"
+                [ngModelOptions]="{ standalone: true }" placeholder="Seleccione una sucursal"
+                optionLabel="nombresucursal" [autofocus]="true" (onChange)="sucursalobtenida()"></p-dropdown>
+        </div>
+    </div>
+</div>
+<div *ngIf="activeIndex==1">
+
+    <div class="container">
+        <h2>Registrar nuevo usuario</h2>
+        <form class="register_container">
+
+            
+
+              <!-- Departamento -->
+              <div class="form-group">
+                <label for="iddepartamento">Departamento</label>
+                <div class="flex">
+                    <span class="p-inputgroup-addon"><i class="fa-regular fa-building"></i></span>
+                    <p-dropdown [options]="departamentos" name="departamentoseleccionado" [filter]="true" filterBy="nombredepartamento" [showClear]="true"
+                        [(ngModel)]="departamentoseleccionado" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione un departamento" optionLabel="nombredepartamento"></p-dropdown>
+                </div>
+            </div>
+
+            <!-- Cargo -->
+            <div class="form-group">
+                <label for="idcargo">Cargo</label>
+                <div class="flex">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-user-tie"></i></span>
+                    <p-dropdown [options]="cargos" name="cargoseleccionado" [(ngModel)]="cargoseleccionado" [filter]="true" filterBy="descripcioncargo" [showClear]="true"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un cargo"
+                        optionLabel="descripcioncargo"></p-dropdown>
+                </div>
+
+            </div>
+            <!-- Tipo de usuario -->
+            <div class="form-group">
+                <label for="idrol">Rol del usuario</label>
+                <div class="flex ">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-user-group"></i></span>
+                    <p-dropdown class="" width="100%" [options]="roles" name="rolseleccionado" 
+                        [(ngModel)]="rolseleccionado" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione un rol" optionLabel="nombrerol"></p-dropdown>
+                </div>
+            </div>
+            
+            <!-- Tipo de documento -->
+            <div class="form-group">
+                <label for="idtipoidentificacion">Tipo de identificación</label>
+                <div class="flex">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-id-card"></i></span>
+                    <p-dropdown [options]="tiposidentificacion" name="identificacionseleccionada"
+                        [(ngModel)]="identificacionseleccionada" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione un Tipo de identificacion" (onChange)="cambiarMaxlengthDni()"
+                        optionLabel="descripciontipoidentificacion"></p-dropdown>
+                </div>
+            </div>
+
+            <!-- Tipo de persona -->
+            <div class="form-group">
+                <label for="idtipopersona">Tipo de persona</label>
+                <div class="flex">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-person"></i></span>
+                    <p-dropdown [options]="tipospersonas" name="personaseleccionada" [(ngModel)]="personaseleccionada"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un tipo de persona"
+                        optionLabel="descripciontipopersona"></p-dropdown>
+
+
+                </div>
+            </div>
+
+            <!-- Numero de identificacion -->
+            <div class="form-group">
+                <label for="identificacion">Número de identificación</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-regular fa-id-card"></i></span>
+                        <input id="numeroidentificacion" type="text" name="numeroidentificacion" [maxlength]="maxDniLength"
+                            [(ngModel)]="numeroidentificacion" pInputText placeholder="Numero de identificacion"
+                            #numInput="ngModel" (input)="validarNumeroidentificacion(numInput)"
+                            [pKeyFilter]="identificacionseleccionada.codigotipoidentificacion == 'P'? regexNumerosLetrasSinEspacios : regexnumber">
+                    </div>
+                    <small *ngIf="numInput.errors?.['longitudIncorrecta']" class="p-error block">El número de
+                        identificación debe tener 10 dígitos.</small>
+                    <small *ngIf="numInput.errors?.['longitudIncorrecta2']" class="p-error block">El número de
+                        identificación debe tener 13 dígitos.</small>
+                    <small *ngIf="numInput.errors?.['longitudIncorrecta3']" class="p-error block">El número de
+                        identificación debe tener igual o mayor a 10 dígitos.</small>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="nombre">Nombres</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-regular fa-user"></i></span>
+                        <input class="p-input-filled" type="text" name="nombres" [(ngModel)]="name" pInputText
+                            placeholder="Nombres" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+"
+                            title="Ingresa solo caracteres de texto (letras)" (input)="convertirAMayusculasName($event)"
+                            [pKeyFilter]="keyFikterLetras">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Apellidos -->
+            <div class="form-group">
+                <label for="apellido">Apellidos</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-regular fa-user"></i></span>
+                        <input type="text" name="apellidos" pInputText [(ngModel)]="apellidos"
+                            [pKeyFilter]="keyFikterLetras" (input)="convertirAMayusculasApellido($event)"
+                            placeholder="Apellidos">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Genero -->
+            <div class="form-group">
+                <label for="genero">Género</label>
+                <div class="flex">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-venus-mars"></i></span>
+                    <p-dropdown [options]="generos" name="generoseleccionado" [(ngModel)]="generoseleccionado"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un genero"
+                        optionLabel="descripciongenero"></p-dropdown>
+                </div>
+            </div>
+
+            <!-- Dirección -->
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-solid fa-location-dot"></i></span>
+                        <input type="text" name="direccion" [(ngModel)]="direccion"
+                            (input)="convertirAMayusculasDireccion($event)" pInputText placeholder="Dirección">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Celular -->
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-solid fa-mobile"></i></span>
+                        <input id="celular" type="text" name="celular" [(ngModel)]="celular" pInputText [maxlength]="10"
+                            placeholder="Celular" #numInput2="ngModel" (input)="validarNumeroCelular(numInput2)"
+                            [pKeyFilter]="regexnumber">
+                    </div>
+                    <small *ngIf="numInput2.errors?.['longitudIncorrecta']" class="p-error block">El número de
+                        celular debe tener 10 dígitos.</small>
+                </div>
+            </div>
+
+            <!-- Telefono -->
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-solid fa-phone"></i></span>
+                        <input id="telefono" type="text" name="telefono" [(ngModel)]="telefono" pInputText
+                            [maxlength]="9" placeholder="Teléfono" #numInput3="ngModel"
+                            (input)="validarNumeroTelefono(numInput3)" [pKeyFilter]="regexnumber">
+                    </div>
+                    <small *ngIf="numInput3.errors?.['longitudIncorrecta']" class="p-error block">El número de
+                        teléfono debe tener 9 dígitos.</small>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-regular fa-envelope"></i></span>
+                        <input type="email" name="email" [(ngModel)]="email" pInputText placeholder="E-mail">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <div class="group">
+                    <span class="p-inputgroup-addon"><i class="fa-solid fa-lock"></i></span>
+                    <div class="password">
+
+                        <p-password name="password" [(ngModel)]="password" [feedback]="false" [toggleMask]="true"
+                            placeholder="Contraseña"></p-password>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        <div class="btn-group-register">
+            <button pButton type="button" label="Regresar" icon="pi pi-arrow-left" (click)="regresarSucursal()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right" (click)="siguienteConfirmacion()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+        </div>
+
+        <p-toast></p-toast>
+
+    </div>
+
+
+</div>
+<div *ngIf="activeIndex==2">
+    <div class="container">
+        <form class="">
+
+            <div class="table-data">
+                <h2>Datos nuevo usuario</h2>
+                <p-table [value]="data" [paginator]="false" [rows]="10">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td class="data-title">Agencia</td>
+                            <td>{{sucursalseleccionada.nombresucursal}}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Departamento</td>
+                            <td>{{departamentoseleccionado.nombredepartamento}}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Cargo</td>
+                            <td>{{cargoseleccionado.descripcioncargo}}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="data-title">Rol de usuario</td>
+                            <td>{{rolseleccionado.nombrerol}}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de persona</td>
+                            <td>{{personaseleccionada.descripciontipopersona}}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de identificación</td>
+                            <td>{{ identificacionseleccionada.descripciontipoidentificacion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Número de identificación</td>
+                            <td>{{ numeroidentificacion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Nombres</td>
+                            <td>{{ name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Apellidos</td>
+                            <td>{{ apellidos }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Género</td>
+                            <td>{{ generoseleccionado.descripciongenero }}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="data-title">E-mail</td>
+                            <td>{{ email }}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="data-title">Celular</td>
+                            <td>{{ celular }}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="data-title">Teléfono</td>
+                            <td>{{ telefono }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Dirección</td>
+                            <td>{{ direccion }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </form>
+
+        <div class="btn-group-register">
+            <button pButton type="button" label="Regresar" icon="pi pi-arrow-left" (click)="regresarDatosPersona()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            <button pButton type="button" label="Registrar" icon="pi pi-check" (click)="guardarRegistro()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+
+            <p-progressSpinner *ngIf="spinnerLoad == true" strokeWidth="7"
+                [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+        </div>
+    </div>
+</div>

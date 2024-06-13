@@ -1,0 +1,10 @@
+<div class="container ">
+    <h2>Registrar</h2>
+
+    <label for="sucursal">Sucursal</label>
+    <div class="">
+        <p-dropdown [options]="sucursales" name="sucursalseleccionada" [(ngModel)]="sucursalseleccionada"
+            [ngModelOptions]="{ standalone: true }" placeholder="Seleccione una sucursal" optionLabel="nombresucursal"
+            [showClear]="true" (onChange)="sucursalobtenida()"></p-dropdown>
+    </div>
+</div>

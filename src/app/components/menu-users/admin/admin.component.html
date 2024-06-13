@@ -1,0 +1,74 @@
+<nav>
+
+  <img src="../assets/keta logo 2.svg" alt="Logo_jakay" height="55px">
+
+  <div class="flex">
+    <div class="dropdown">
+      <div class="buttons_right dropdown-toggle nav-item" id="notify" href="#" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <span class="notification-badge">
+          <i class="pi pi-bell"></i>
+          <span *ngIf="this.notificationsBadge.length >0" class="badge">{{this.notificationsBadge.length}}</span>
+        </span>
+
+      </div>
+      <form class="dropdown-menu " aria-labelledby="notify">
+
+        <p-scrollPanel [style]="{width: '100%', height: '310px'}" appendTo="body">
+          <h4 style="color: rgb(124, 124, 124)">Notificaciones</h4>
+          <div class="notis-empty" *ngIf="notifications.length === 0;">
+            <p class="text-center" style="color: black">No tienes notificaciones.</p>
+          </div>
+          <div class="notis" *ngFor="let notification of notifications">
+            <p-card [style]="{padding:'0rem'}" (click)="notificationUpdate(notification)">
+
+              <ng-template pTemplate="content">
+                <h2>{{notification.notification_type}}</h2>
+                <p>{{notification.message}}</p>
+                <span class="fecha_notificacion">{{formatTimestamp(notification.created_at)}}</span>
+                <div class="icon-container">
+
+                  <i class="pi pi-check-circle {{notification.status}}"></i>
+                </div>
+
+              </ng-template>
+            </p-card>
+          </div>
+        </p-scrollPanel>
+        <br>
+        <button pButton label="Mostrar todo" class="p-button-secondary" (click)="mostrarTodasNotificaciones()"
+          style="background-color: #4e1e4f; width: 100%;"></button>
+      </form>
+    </div>
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false"><i class="pi pi-user"></i> {{usuarioLoggeado}}
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" style="width: 100px;" aria-labelledby="navbarDropdown">
+        <li><a [routerLink]="['/home-ticket/profile']" class="dropdown-item"> <i style="margin-right: 10px;" class="fa-regular fa-id-badge"></i>Mi Perfil</a></li>
+        <li>
+          <hr class="dropdown-divider" />
+        </li>
+        <li><a class="dropdown-item" (click)="logout()"> <i class="pi pi-sign-out"></i> Cerrar Sesión</a>
+        </li>
+      </ul>
+    </li>
+  </div>
+</nav>
+<div class="fixed">
+</div>
+
+<div class="sidebar_container">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <br>
+      <!-- Reemplaza el mat-expansion-panel por el p-panelMenu de PrimeNG -->
+      <p-panelMenu [model]="menuItems"></p-panelMenu>
+    </div>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

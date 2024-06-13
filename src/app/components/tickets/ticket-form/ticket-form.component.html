@@ -1,0 +1,965 @@
+<div class="ticket-form-container">
+
+
+    <div class="container-fluid">
+        <p-breadcrumb [model]="items" width="100%" [home]="dash"></p-breadcrumb>
+    </div>
+    <div class="card">
+        <p-toast></p-toast>
+        <p-steps [model]="items2" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+    </div>
+
+    <div *ngIf="activeIndex==0">
+        <p-panel class="" header="Crear un ticket">
+            <div class="col-12 col-md-4">
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="sucursal">Agencia</label>
+                    <div class="sucursal_drop">
+                        <p-dropdown [options]="sucursales" name="sucursalseleccionada"
+                            [(ngModel)]="sucursalseleccionada" [ngModelOptions]="{ standalone: true }"
+                            placeholder="Seleccione una agencia" optionLabel="nombresucursal" [autofocus]="true"
+                            (onChange)="sucursalobtenida()"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </div>
+
+
+    <div *ngIf="activeIndex==1">
+        <p-panel class="register-panel" header="Datos persona">
+            <form class="register_container">
+                <!-- Tipo de persona -->
+                <div class="form-group">
+                    <label for="idtipopersona">Tipo de persona</label>
+                    <div class="flex">
+                        <span class="p-inputgroup-addon"><i class="fa-solid fa-person"></i></span>
+                        <p-dropdown [options]="tipospersonas" name="personaseleccionada"
+                            [(ngModel)]="personaseleccionada" [ngModelOptions]="{ standalone: true }"
+                            placeholder="Seleccione un tipo de persona"
+                            optionLabel="descripciontipopersona"></p-dropdown>
+                    </div>
+                </div>
+                <!-- Tipo de documento -->
+                <div class="form-group">
+                    <label for="idtipoidentificacion">Tipo de identificación</label>
+                    <div class="flex">
+                        <span class="p-inputgroup-addon"><i class="fa-solid fa-id-card"></i></span>
+                        <p-dropdown [options]="tiposidentificacion" name="identificacionseleccionada"
+                            [(ngModel)]="identificacionseleccionada" [ngModelOptions]="{ standalone: true }"
+                            placeholder="Seleccione un Tipo de identificacion" (onChange)="cambiarMaxlengthDni()"
+                            optionLabel="descripciontipoidentificacion"></p-dropdown>
+                    </div>
+                </div>
+                <!-- Numero de identificacion -->
+            <div class="form-group">
+                <label for="identificacion">Número de identificación</label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="fa-regular fa-id-card"></i></span>
+                        <input id="numeroidentificacion" type="text" name="numeroidentificacion" [maxlength]="maxDniLength" [minlength]="minDniLength"
+                            [(ngModel)]="numeroidentificacion" pInputText placeholder="Numero de identificacion"
+                            #numInput="ngModel" (input)="validarNumeroidentificacion(numInput)"
+                            [pKeyFilter]="identificacionseleccionada.codigotipoidentificacion == 'P'? regexNumerosLetrasSinEspacios : regexnumber">
+                    </div>
+                    <small *ngIf="numInput.errors?.['longitudIncorrecta']" class="p-error block">El número de
+                        identificación debe tener 10 dígitos.</small>
+                    <small *ngIf="numInput.errors?.['longitudIncorrecta2']" class="p-error block">El número de
+                        identificación debe tener 13 dígitos.</small>
+                    <small *ngIf="numInput.errors?.['longitudIncorrecta3']" class="p-error block">El número de
+                        identificación debe tener igual o mayor a 7 dígitos.</small>
+                </div>
+            </div>
+                <!-- Nombres -->
+                <div class="form-group">
+                    <label for="nombre">Nombres</label>
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="fa-regular fa-user"></i></span>
+                            <input type="text" name="nombres" (input)="convertirAMayusculasName($event)"
+                                [(ngModel)]="name" pInputText [pKeyFilter]="keyFikterLetras" placeholder="Nombres">
+                        </div>
+                    </div>
+                </div>
+                <!-- Apellidos -->
+                <div class="form-group">
+                    <label for="apellido">Apellidos</label>
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="fa-regular fa-user"></i></span>
+                            <input type="text" name="apellidos" (input)="convertirAMayusculasApellido($event)"
+                                [(ngModel)]="apellidos" pInputText [pKeyFilter]="keyFikterLetras"
+                                placeholder="Apellidos">
+                        </div>
+                    </div>
+                </div>
+                <!-- Genero -->
+                <div class="form-group">
+                    <label for="genero">Género</label>
+                    <div class="flex">
+                        <span class="p-inputgroup-addon"><i class="fa-solid fa-venus-mars"></i></span>
+                        <p-dropdown [options]="generos" name="generoseleccionado" [(ngModel)]="generoseleccionado"
+                            [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un genero"
+                            optionLabel="descripciongenero"></p-dropdown>
+                    </div>
+                </div>
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="fa-regular fa-envelope"></i></span>
+                            <input  type="email" name="email" [(ngModel)]="email" pInputText placeholder="E-mail">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="celular">Celular</label>
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="fa-solid fa-mobile"></i></span>
+                            <input maxlength="10" id="celular" type="text" name="celular" [(ngModel)]="celular" pInputText
+                                placeholder="Celular" #numInput2="ngModel" (input)="validarNumeroCelular(numInput2)"
+                                [pKeyFilter]="regexnumber">
+                        </div>
+                        <small *ngIf="numInput2.errors?.['longitudIncorrecta']" class="p-error block">El número de
+                            celular debe tener 10 dígitos.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="celular">Teléfono</label>
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="fa-solid fa-phone"></i></span>
+                            <input maxlength="9" id="telefono" type="text" name="telefono" [(ngModel)]="telefono" pInputText
+                                placeholder="Teléfono" #numInput3="ngModel" (input)="validarNumeroTelefono(numInput3)"
+                                [pKeyFilter]="regexnumber">
+                        </div>
+                        <small *ngIf="numInput3.errors?.['longitudIncorrecta']" class="p-error block">El número de
+                            teléfono debe tener 9 dígitos.</small>
+                    </div>
+                </div>
+                <!-- Dirección -->
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <div class="col-12 md:col-4">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="fa-solid fa-location-dot"></i></span>
+                            <input type="text" name="direccion" (input)="convertirAMayusculasDireccion($event)"
+                                [(ngModel)]="direccion" pInputText placeholder="Dirección">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <p-toast></p-toast>
+            <div class="btn-group-register">
+                <button pButton type="button" label="Regresar" icon="pi pi-arrow-left" (click)="regresarSucursal()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right" (click)="siguienteReclamo()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            </div>
+        </p-panel>
+    </div>
+    <div *ngIf="activeIndex==2">
+        <p-panel class="" header="Reclamo">
+            <div class="form-group">
+                <label for="canalrecepcion">Canal de recepcion</label>
+                <div class="flex">
+                    <p-dropdown [options]="canalesRecepciones" name="canalrecepcionseleccionada"
+                        [(ngModel)]="canalrecepcionseleccionada" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione un canal de recepcion"
+                        optionLabel="descripcioncanalrecepcion"></p-dropdown>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="idrol">Tipo de transación</label>
+                <div class="flex">
+                    <p-dropdown class="" [options]="tiposTransacciones" name="tipotransaccionseleccionada"
+                        [(ngModel)]="tipotransaccionseleccionada" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione un tipo de transación"
+                        optionLabel="descripciontipotransaccion"></p-dropdown>
+                </div>
+            </div>
+            <label for="canalrecepcion">Tipo de reclamo</label>
+            <p-dropdown [options]="ticketTipos" name="ticketiposeleccionada" [(ngModel)]="ticketiposeleccionada"
+                [ngModelOptions]="{ standalone: true }" placeholder="Tipo de reclamo"
+                optionLabel="descripciontipoticket" (onChange)="obtenerIdTipoTicket()"></p-dropdown>
+        </p-panel>
+
+        <!-- Cobros indebidos -->
+        <p-panel *ngIf="showtipoticket == 1" class="" header="Cobros Indebidos">
+            <div class="form-group">
+                <h4>Tipo de Producto</h4>
+                <p-dropdown [options]="tiposProductos" name="tipoproductoseleccionado"
+                    [(ngModel)]="tipoproductoseleccionado" [ngModelOptions]="{ standalone: true }"
+                    placeholder="Seleccione tipo de producto" optionLabel="descripciontipoproducto"
+                    (onChange)="listarTipoConcepto()"></p-dropdown>
+            </div>
+            <div class="form-group">
+                <h4>Concepto</h4>
+                <p-dropdown [options]="conceptos" name="conceptoseleccionado" [(ngModel)]="conceptoseleccionado"
+                    [ngModelOptions]="{ standalone: true }" placeholder="Seleccione tipo de concepto"
+                    optionLabel="descripcionconcepto"></p-dropdown>
+            </div>
+            <div class="form-group">
+
+                <h4>Descripción del asunto</h4>
+                <textarea rows="5" name="descripcion" [(ngModel)]="descripcion" pInputTextarea></textarea>
+            </div>
+            <div class="form-group">
+                <label for="monto">
+                    <h4>Monto</h4>
+                </label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="monto" [showButtons]="true" mode="decimal" locale="en-US"
+                            [minFractionDigits]="2" [step]="0.01"></p-inputNumber>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prioridad -->
+            <div class="form-group">
+                <label for="prioridad">
+                    <h4>Prioridad</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="prioridades" name="prioridadseleccionada" [(ngModel)]="prioridadseleccionada"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione una prioridad"
+                        optionLabel="descripcionprioridad"></p-dropdown>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tipocomentario">
+                    <h4>Tipo de comentario</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="tiposcomentariosReclamos" name="tipocomentarioseleccinada"
+                        [(ngModel)]="tipocomentarioseleccinada" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione el tipo de comentario"
+                        optionLabel="descripciontipocomentario"></p-dropdown>
+                </div>
+            </div>
+            <!-- <div class="btn-group-register">
+                <div class="btn-group-register">
+                    <button pButton type="button" label="Regresar" icon="pi pi-arrow-left"
+                        (click)="regresarDatosCobrosIndebidos()" class="p-button-secondary"
+                        style="background-color: #4e1e4f;"></button>
+                    <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right"
+                        (click)="siguienteConfCobrosIndebidos()" class="p-button-secondary"
+                        style="background-color: #4e1e4f;"></button>
+                    <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                        class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                </div>
+            </div> -->
+        </p-panel>
+
+        <!-- Reclamos tarjetas -->
+        <p-panel *ngIf="showtipoticket == 2" class="" header="Reclamos tarjetas">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h4>Marca de tarjeta</h4>
+                            <p-dropdown [options]="marcasTarjetas" name="marcatarjetaseleccionada"
+                                [(ngModel)]="marcatarjetaseleccionada" [ngModelOptions]="{ standalone: true }"
+                                placeholder="Seleccione marca de tarjeta" optionLabel="descripcionmarcatarjeta"></p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <h4>Tipo de tarjeta</h4>
+                            <p-dropdown [options]="tiposTarjetas" name="tipotarjetaseleccionada"
+                                [(ngModel)]="tipotarjetaseleccionada" [ngModelOptions]="{ standalone: true }"
+                                placeholder="Seleccione tipo de tarjeta" optionLabel="descripciontipotarjeta"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h4>Clase de tarjeta</h4>
+                            <p-dropdown [options]="clasestarjetas" name="clasetarjetaseleccionada"
+                                [(ngModel)]="clasetarjetaseleccionada" [ngModelOptions]="{ standalone: true }"
+                                placeholder="Seleccione clase de tarjeta" optionLabel="descripcionclasetarjeta"></p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <h4>Número de tarjeta</h4>
+                            <input type="text" pInputText name="nrotarjeta" (change)="this.ocultarNumerosIntermedios()" [(ngModel)]="nrotarjeta" [maxlength]="16"
+                                [pKeyFilter]="regexnumber">
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="form-group">
+
+                <h4>Descripción del asunto</h4>
+                <textarea rows="5" cols="100%" name="descripcion" [(ngModel)]="descripcion" pInputTextarea></textarea>
+            </div>
+            <div class="form-group">
+                <label for="monto">
+                    <h4>Monto</h4>
+                </label>
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="monto" [showButtons]="true" mode="decimal" locale="en-US"
+                            [minFractionDigits]="2" [step]="0.01"></p-inputNumber>
+                    </div>
+                </div>
+            </div>
+            <!-- Prioridad -->
+            <div class="form-group">
+                <label for="prioridad">
+                    <h4>Prioridad</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="prioridades" name="prioridadseleccionada" [(ngModel)]="prioridadseleccionada"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione una prioridad"
+                        optionLabel="descripcionprioridad"></p-dropdown>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tipocomentario">
+                    <h4>Tipo de comentario</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="tiposcomentariosReclamos" name="tipocomentarioseleccinada"
+                        [(ngModel)]="tipocomentarioseleccinada" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione el tipo de comentario"
+                        optionLabel="descripciontipocomentario"></p-dropdown>
+                </div>
+            </div>
+            <!-- <div class="btn-group-register">
+                <button pButton type="button" label="Regresar" icon="pi pi-arrow-left"
+                    (click)="regresarDatosReclamosTarjetas()" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right"
+                    (click)="siguienteConfReclamosTarjetas()" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            </div> -->
+        </p-panel>
+
+        <!-- Reclamos generales -->
+        <p-panel *ngIf="showtipoticket == 3" class="" header="Reclamos generales">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h4>Agencia que lo atendió</h4>
+                            <p-dropdown [options]="sucursales" name="agenciareclamoseleccionado" [required]="true"
+                                [(ngModel)]="agenciareclamoseleccionado" [ngModelOptions]="{ standalone: true }"
+                                placeholder="Seleccione una agencia" (onChange)="agenciaReclamoObtenida()"
+                                optionLabel="nombresucursal"></p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <h4>Persona que lo atendió</h4>
+                            <p-dropdown [showClear]="true" [options]="listaUsuariosReclamos" name="usuarioreclamoseleccionado" [filter]="true"
+                                [filterBy]="'nombres'" [(ngModel)]="usuarioreclamoseleccionado"
+                                [ngModelOptions]="{ standalone: true }" placeholder="Seleccione persona"
+                                optionLabel="email">
+                                <ng-template let-option pTemplate="item">
+                                    {{ option.email }} - {{ option.first_name }} {{option.last_name}}
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h4>Área que lo atendió</h4>
+                            <p-dropdown [options]="departamentosReclamo" name="departamentoreclamoseleccionado"
+                                [(ngModel)]="departamentoreclamoseleccionado" [ngModelOptions]="{ standalone: true }"
+                                placeholder="Seleccione el área" (onChange)="departamentoReclamoObtenido()"
+                                optionLabel="nombredepartamento"></p-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <h4>Servicio proporcionado</h4>
+                            <input pInputText type="text" name="descripcionservicio" placeholder="Servicio proporcionado"
+                                [(ngModel)]="descripcionservicio">
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="form-group">
+                <h4>Descripción del reclamo</h4>
+                <textarea rows="5" cols="100%" name="descripcion" [(ngModel)]="descripcion"
+                    placeholder="Describa de forma clara la razón del reclamo" pInputTextarea></textarea>
+            </div>
+            <!-- Prioridad -->
+            <div class="form-group">
+                <label for="prioridad">
+                    <h4>Prioridad</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="prioridades" name="prioridadseleccionada" [(ngModel)]="prioridadseleccionada"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione una prioridad"
+                        optionLabel="descripcionprioridad"></p-dropdown>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tipocomentario">
+                    <h4>Tipo de comentario</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="tiposcomentariosReclamosGenerales" name="tipocomentarioseleccinada"
+                        [(ngModel)]="tipocomentarioseleccinada" [ngModelOptions]="{ standalone: true }"
+                        placeholder="Seleccione el tipo de comentario"
+                        optionLabel="descripciontipocomentario"></p-dropdown>
+                </div>
+            </div>
+            <!-- <div class="btn-group-register">
+                <button pButton type="button" label="Regresar" icon="pi pi-arrow-left"
+                    (click)="regresarDatosReclamosGenerales()" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right"
+                    (click)="siguienteConfReclamosGenerales()" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            </div> -->
+        </p-panel>
+        <!-- CONTROL DE DOCUMENTOS -->
+        <p-panel *ngIf="showtipoticket == 4" class="" header="Control de documentos">
+            <div class="form-group">
+                <h4>Nro. de oficio</h4>
+                <input rows="1" cols="100%" name="descripcion" [(ngModel)]="asunto" pInputText />
+                <br>
+                <h4>Descripción del asunto</h4>
+                <textarea rows="5" cols="100%" name="descripcion" [(ngModel)]="descripcion" pInputTextarea></textarea>
+            </div>
+            <!-- Prioridad -->
+            <div class="form-group">
+                <label for="prioridad">
+                    <h4>Prioridad</h4>
+                </label>
+                <div class="flex">
+                    <p-dropdown [options]="prioridades" name="prioridadseleccionada" [(ngModel)]="prioridadseleccionada"
+                        [ngModelOptions]="{ standalone: true }" placeholder="Seleccione una prioridad"
+                        optionLabel="descripcionprioridad"></p-dropdown>
+                </div>
+            </div>
+
+            <!-- <div class="btn-group-register">
+                <button pButton type="button" label="Regresar" icon="pi pi-arrow-left" (click)="regresarDatosQuejas()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right"
+                    (click)="siguienteConfirmacionQuejas()" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            </div> -->
+        </p-panel>
+
+        <div class="btn-group-register">
+            <div class="btn-group-register">
+                <button pButton type="button" label="Regresar" icon="pi pi-arrow-left"
+                    (click)="regresarDatos()" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right"
+                    (click)="siguienteConfCobrosIndebidos(ticketiposeleccionada)" class="p-button-secondary"
+                    style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Archivos -->
+
+    <div *ngIf="activeIndex==3">
+        <p-panel class="" header="Subir archivos">
+            <!-- cédula -->
+            <div *ngIf="!uploadCedula"  class="form-group">
+                <h3>Cédula (Obligatorio)</h3>
+
+                <input  placeholder="Descripción de archivo" name="descripcionarchivocedula" [(ngModel)]="descripcionarchivocedula"
+                    pInputText />
+                <p-fileUpload [files]="myfilesCedula"  name="demo[]" (uploadHandler)="myUploader1($event,'Cedula')" [customUpload]="true"
+                    accept="application/pdf" [maxFileSize]="5242880" required>
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles"><input type="text">{{file.name}} - {{file.size}}
+                                bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+            <!-- cedula de abogado -->
+            <div *ngIf="!uploadAbg" class="form-group">
+                <h3>Matrícula de abogado (Opcional)</h3>
+
+                <input name="descripcionarchivoAbg" [(ngModel)]="descripcionarchivoAbg" placeholder="Descripción de archivo"
+                    pInputText />
+                <p-fileUpload [files]="myfilesAbg"  name="demo[]" (uploadHandler)="myUploader2($event, 'Abg')" [customUpload]="true"
+                    accept="application/pdf" [maxFileSize]="5242880">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles"><input type="text">{{file.name}} - {{file.size}}
+                                bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+            <!-- Archivos extras -->
+            <div class="form-group">
+                <h3>Archivos adicionales (Opcional)</h3>
+
+                <input  name="descripcionarchivoAdicional" [(ngModel)]="descripcionarchivoAdicional" placeholder="Descripción de archivo"
+                    pInputText />
+                <p-fileUpload [files]="myfilesAdicional"  name="demo[]" (uploadHandler)="myUploader3($event, 'Adicional')" [customUpload]="true"
+                    accept="application/pdf" [maxFileSize]="5242880">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles"><input type="text">{{file.name}} - {{file.size}}
+                                bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+            
+            <div>
+                <br>
+                <h2>Archivos cargados</h2>
+
+                <p-table [value]="arrayformDataJSON">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Archivo</th>
+                            <th>Descripción</th>
+                            <th>Tipo</th>
+                            <th>Acción</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-formData>
+                        <tr>
+                            <td>{{ formData.nombrearchivo }}</td>
+                            <td>{{ formData.descripcionarchivo }}</td>
+                            <td>{{ formData.type }}</td>
+                            <td>
+                                <button pButton type="button" icon="pi pi-trash" style="background-color: #f79646; border:1px solid #f79646"
+                                    (click)="eliminarArchivosCargados(formData.idtarea)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">No hay archivos</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-panel>
+        <div class="btn-group-register">
+            <button pButton type="button" label="Regresar" icon="pi pi-arrow-left" (click)="regresarReclamos()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            <button pButton type="button" label="Siguiente" icon="pi pi-arrow-right" (click)="siguienteConfirmacion()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+            <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+        </div>
+    </div>
+    <!-- Confirmacion -->
+    <div *ngIf="activeIndex==4">
+        <p-panel class="" header="Confirmación">
+            <div class="table-data">
+                <h2>Datos persona</h2>
+                <p-table [value]="data" [paginator]="false" [rows]="10">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td class="data-title">Agencia</td>
+                            <td>{{sucursalseleccionada.nombresucursal}}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de persona</td>
+                            <td>{{personaseleccionada.descripciontipopersona}}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de identificación</td>
+                            <td>{{ identificacionseleccionada.descripciontipoidentificacion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Número de identificación</td>
+                            <td>{{ numeroidentificacion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Nombres</td>
+                            <td>{{ name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Apellidos</td>
+                            <td>{{ apellidos }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Género</td>
+                            <td>{{ generoseleccionado.descripciongenero }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">E-mail</td>
+                            <td>{{ email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Celular</td>
+                            <td>{{ celular }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Teléfono</td>
+                            <td>{{ telefono }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Dirección</td>
+                            <td>{{ direccion }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+            <div class="table-data" *ngIf="activeIndex==4 && showtipoticket == 1">
+
+                <h2 class="reclamo-title">Reclamo</h2>
+
+                <p-table header="Reclamo" [value]="data" [paginator]="false" [rows]="10">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td class="data-title">Tipo de reclamo</td>
+                            <td>{{ ticketiposeleccionada.descripciontipoticket }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de transacción</td>
+                            <td>{{ tipotransaccionseleccionada.descripciontipotransaccion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Canal de recepción</td>
+                            <td>{{ canalrecepcionseleccionada.descripcioncanalrecepcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de producto</td>
+                            <td>{{ tipoproductoseleccionado.descripciontipoproducto }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Concepto</td>
+                            <td>{{ conceptoseleccionado.descripcionconcepto }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Descripción del asunto</td>
+                            <td>{{ descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Monto</td>
+                            <td>{{ monto }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Prioridad</td>
+                            <td>{{ prioridadseleccionada.descripcionprioridad }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de comentario</td>
+                            <td>{{ tipocomentarioseleccinada.descripciontipocomentario }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Archivo</td>
+                            <td>
+                                <div *ngFor="let formData of arrayformDataJSON">
+                                    <ul>
+                                        <li>
+                                            {{ formData.nombrearchivo }}
+                                            {{ formData.descripcionarchivo }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="table-data" *ngIf="activeIndex==4 && showtipoticket == 2">
+                <h2 class="reclamo-title">Reclamo</h2>
+                <p-table [value]="data" [paginator]="false" [rows]="10">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td class="data-title">Tipo de reclamo</td>
+                            <td>{{ ticketiposeleccionada.descripciontipoticket }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de transacción</td>
+                            <td>{{ tipotransaccionseleccionada.descripciontipotransaccion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Canal de recepción</td>
+                            <td>{{ canalrecepcionseleccionada.descripcioncanalrecepcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Marca de tarjeta</td>
+                            <td>{{ marcatarjetaseleccionada.descripcionmarcatarjeta }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de tarjeta</td>
+                            <td>{{ tipotarjetaseleccionada.descripciontipotarjeta }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Clase de tarjeta</td>
+                            <td>{{ clasetarjetaseleccionada.descripcionclasetarjeta }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Número de tarjeta</td>
+                            <td>{{ nrotarjetahide }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Descripción del asunto</td>
+                            <td>{{ descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Monto</td>
+                            <td>{{ monto }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Prioridad</td>
+                            <td>{{ prioridadseleccionada.descripcionprioridad }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de comentario</td>
+                            <td>{{ tipocomentarioseleccinada.descripciontipocomentario }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Archivo</td>
+                            <td>
+                                <div *ngFor="let formData of arrayformDataJSON">
+                                    <ul>
+                                        <li>
+                                            {{ formData.nombrearchivo }}
+                                            {{ formData.descripcionarchivo }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="table-data" *ngIf="activeIndex==4 && showtipoticket == 3">
+                <h2 class="reclamo-title">Reclamo</h2>
+
+                <p-table [value]="data" [paginator]="false" [rows]="10">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td class="data-title">Tipo de reclamo</td>
+                            <td>{{ ticketiposeleccionada.descripciontipoticket }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de transacción</td>
+                            <td>{{ tipotransaccionseleccionada.descripciontipotransaccion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Canal de recepción</td>
+                            <td>{{ canalrecepcionseleccionada.descripcioncanalrecepcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Agencia que lo atendió</td>
+                            <td>{{ agenciareclamoseleccionado.nombresucursal }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Área que lo atendió</td>
+                            <td>{{ departamentoreclamoseleccionado.nombredepartamento }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Persona que lo atendió</td>
+                            <td>
+                                {{ (usuarioreclamoseleccionado && usuarioreclamoseleccionado.first_name !== undefined && usuarioreclamoseleccionado.last_name !== undefined) ? (usuarioreclamoseleccionado.first_name + ' ' + usuarioreclamoseleccionado.last_name) : '' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Servicio proporcionado</td>
+                            <td>{{ descripcionservicio }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Descripción del reclamo</td>
+                            <td>{{ descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Prioridad</td>
+                            <td>{{ prioridadseleccionada.descripcionprioridad }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de comentario</td>
+                            <td>{{ tipocomentarioseleccinada.descripciontipocomentario }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Archivo</td>
+                            <td>
+                                <div *ngFor="let formData of arrayformDataJSON">
+                                    <ul>
+                                        <li>
+                                            {{ formData.nombrearchivo }}
+                                            {{ formData.descripcionarchivo }}
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="table-data" *ngIf="activeIndex==4 && showtipoticket == 4">
+                <h2 class="reclamo-title">Reclamo</h2>
+
+                <p-table [value]="data" [paginator]="false" [rows]="10">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr>
+                            <td class="data-title">Tipo de reclamo</td>
+                            <td>{{ ticketiposeleccionada.descripciontipoticket }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Tipo de transacción</td>
+                            <td>{{ tipotransaccionseleccionada.descripciontipotransaccion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Canal de recepción</td>
+                            <td>{{ canalrecepcionseleccionada.descripcioncanalrecepcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Descripción del asunto</td>
+                            <td>{{ descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Monto</td>
+                            <td>{{ monto }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Prioridad</td>
+                            <td>{{ prioridadseleccionada.descripcionprioridad }}</td>
+                        </tr>
+                        <tr>
+                            <td class="data-title">Archivo</td>
+                            <td>
+                                <div *ngFor="let formData of arrayformDataJSON">
+                                    <ul>
+                                        <li>
+                                            {{ formData.nombrearchivo }}
+                                            {{ formData.descripcionarchivo }}
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="btn-group-register">
+                <button pButton type="button" label="Regresar" icon="pi pi-arrow-left" (click)="regresarDocumentos()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Cancelar" icon="pi pi-times" (click)="cancelar()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                <button pButton type="button" label="Crear ticket" icon="pi pi-save" (click)="guardarTicket()"
+                    class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+                <p-progressSpinner *ngIf="spinnerLoad == true" strokeWidth="7"
+                    [style]="{ width: '30px', height: '30px' }"></p-progressSpinner>
+            </div>
+        </p-panel>
+    </div>
+
+    <!-- Paso añadido -->
+    <div *ngIf="activeIndex==5">
+        <p-panel class="" header="Subir documento con firma">
+            <h2>Subir documento firmado</h2>
+            
+                <div>
+                    <label for="activityFile">Descripción del documento</label>
+                    <input type="text" [(ngModel)]="descripcionArchivoFirma" [style]="'width: 100%'" placeholder="Descripción del documento" id="descripcionArchivoFirma">
+                </div>
+                <br>
+                <div>
+                    <br>
+                    <label for="activityFile">Adjuntar Archivo</label>
+                    <p-fileUpload [files]="myfiles"  name="activityFile" [customUpload]="true"  [maxFileSize]="5242880"  accept=" application/pdf" (uploadHandler)="myUploaderSignDocument($event)" >
+                        
+                    </p-fileUpload>
+                  </div>
+                  
+        </p-panel>
+        <div class="btn-group-register">
+            <div class="flex">
+                <p-progressSpinner *ngIf="spinnerLoad2 == true" styleClass="custom-spinner" strokeWidth="7" [style]="{width: '25px', height: '25px'}" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+            </div>
+            <button pButton type="button" label="Ver PDF"  (click)="getArchivos()"
+            class="p-button-secondary" style="background-color: #ff6b60; border: 1px solid #ff6b60;"></button>
+            <button pButton type="button"  label="Crear nuevo ticket"  (click)="finalizarTicket()"
+                class="p-button-secondary" style="background-color: #4e1e4f;"></button>
+           
+        </div>
+
+
+</div>
+
+<p-dialog (onHide)="cerrarModalReasignacion()" [(visible)]="mostrarModalReasignacion" [modal]="true">
+    <h4 class="asign">Reasignar a usuario</h4>
+    <p-dropdown [options]="listaUsuarios" [filter]="true" [filterBy]="'email'" name="listausuarios"
+        [(ngModel)]="usuarioseleccionado" [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un usuario"
+        optionLabel="email" appendTo="body"></p-dropdown>
+    <div class="footer_modal">
+        <button pButton pRipple type="button" (click)="reasignarTicket()" label="Aceptar"
+            class="p-button-rounded p-button-help"></button>
+        <button pButton pRipple type="button" (click)="cerrarModalReasignacion()" label="Cancelar"
+            class="p-button-rounded p-button-danger"></button>
+    </div>
+</p-dialog>
+
+
+<!-- Modal para mostrar lista de archivos -->
+<p-dialog (onHide)="cerrarModalArchivos()" [(visible)]="mostrarModalArchivos" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '45vw'}">
+    <div>
+        <div  >
+            <h2>Lista de documentos adjuntos</h2>
+    
+           <!-- Mostrar el spinner cuando los archivos se están cargando -->
+        <div class="spinner-container" *ngIf="cargandoArchivos">
+            <p-progressSpinner styleClass="custom-spinner" strokeWidth="7"
+                [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+        </div>
+    
+            <p-table [paginator]="true" [rows]="3" [value]="listaArchivos" *ngIf="!cargandoArchivos" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Archivo</th>
+                        <th>Descripción</th>
+                        <th>Ver</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-formData let-index>
+                    <tr>
+                        <td>{{ formData.nombrearchivo }}</td>
+                        <td>{{ formData.descripcionarchivo }}</td>
+                        <td>
+                            <div class="spacer_spinner">
+                                <button pButton type="button" style="background-color: #6f2b70; border: 1px solid #6f2b70;"
+                                    (click)="openPDF(formData)" icon="pi pi-file-pdf"></button>
+                                <p-progressSpinner *ngIf="formData.showspinner" strokeWidth="7"
+                                    [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+    
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="3">No hay archivos</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+           
+        </div>
+    </div>
+</p-dialog>
+<router-outlet></router-outlet>

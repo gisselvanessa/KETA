@@ -1,0 +1,520 @@
+
+<div class="container-fluid">
+    <p-breadcrumb [model]="items" [home]="dash"></p-breadcrumb>
+    <!-- Breadcrumbs-->
+</div>
+<br>
+<p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '5px'}"></p-progressBar>
+
+<p-panel header="Casos en proceso">
+    <p-table [paginator]="true" [rows]="5" dataKey="no_ticket" [value]="listaTareaEstadoColor"
+        [tableStyle]="{'min-width': '50rem'}" responsiveLayout="stack" [breakpoint]="'960px'">
+        <ng-template pTemplate="header">
+            <tr>
+                <th></th>
+                <!-- <th pSortableColumn="name">Ticket</th> -->
+                <th pSortableColumn="tarea" style="min-width: 50px;">Ticket <p-sortIcon
+                        field="tarea"></p-sortIcon></th>
+                <th pSortableColumn="titulo_ticket" style="min-width: 150px;">Titulo <p-sortIcon
+                        field="titulo_ticket"></p-sortIcon></th>
+                <th pSortableColumn="descripcionprioridad" style="min-width: 150px;">Prioridad <p-sortIcon
+                        field="descripcionprioridad"></p-sortIcon></th>
+                <th pSortableColumn="descripcionestado" style="min-width: 150px;">Estado <p-sortIcon
+                        field="descripcionestado"></p-sortIcon></th>
+                <th pSortableColumn="nombres_tecnico" style="min-width: 150px;">Usuario Asignado<p-sortIcon
+                    field="nombres_tecnico"></p-sortIcon></th>
+                <th pSortableColumn="fechaasignacion" style="min-width: 150px;">Fecha Asignación <p-sortIcon
+                        field="fechaasignacion"></p-sortIcon></th>
+                <th *ngIf="listaTareaEstadoColor.tiemporequerido" pSortableColumn="tiemporequerido"
+                    style="min-width: 150px;">Fecha entrega <p-sortIcon field="tiemporequerido"></p-sortIcon>
+                </th>
+                <th *ngIf="!listaTareaEstadoColor.tiemporequerido" pSortableColumn="tiempooptimo"
+                    style="min-width: 150px;">Fecha entrega <p-sortIcon field="tiempooptimo"></p-sortIcon> </th>
+                <th class="text-center">Acción</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tareaT let-expanded="expanded">
+            <tr>
+                <td>
+                    <button (click)="tareaEscogidaEstadoColor(tareaT,expanded)" type="button" pButton pRipple
+                        [pRowToggler]="tareaT" class="p-button-text p-button-rounded p-button-plain"
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <!-- <td></td> -->
+                <td>{{tareaT.codigo}}</td>
+                <td>{{tareaT.titulo_ticket}}</td>
+
+                <!-- <td>{{tareaT.descripciontarea}}</td> -->
+                <td>{{tareaT.descripcionprioridad}}</td>
+                <td><span class="{{tareaT.color }}"> {{tareaT.descripcionestado}}</span></td>
+                <td>{{tareaT.usuario_asignado}}</td>
+                <!-- <td>{{tareaT.descripcionprioridad }}</td> -->
+                <td>{{formatTimestamp(tareaT.fechaasignacion)}}</td>
+                <td *ngIf="!tareaT.tiemporequerido">{{ formatTimestamp(tareaT.tiempooptimo) }}</td>
+                <td *ngIf="tareaT.tiemporequerido">{{ formatTimestamp(tareaT.tiemporequerido) }}</td>
+
+                <td>
+                    <div style=" position: relative;" class="speeddial-linear-demo"><p-speedDial
+                            [model]="items3" direction="left" showIcon="pi pi-ellipsis-h" 
+                            (onClick)="tareaEscogidaEnTramite(tareaT)"></p-speedDial></div>
+                </td>
+
+            </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">No existen tickets asignados.</td>
+            </tr>
+        </ng-template>
+        <!-- Expansion subtarea -->
+        <!-- Expansion subtarea -->
+        <ng-template  pTemplate="rowexpansion" let-tareaT>
+                            <tr>
+                                <td class="row-expansion-container" colspan="9">
+                                    <p-progressBar [value]="tareaT.value"></p-progressBar>
+                                    <br>
+                                    <div class="row-expansion">
+                                                <p-table [value]="tareaT.subtasks" dataKey="idtarea">
+                                                    <ng-template pTemplate="header">
+                                                        <tr>
+                                                            <th pSortableColumn="codigo">Ticket</th>
+                                                            <th pSortableColumn="titulosubtarea">Subtarea </th>
+                                                            <th pSortableColumn="responsable">Responsable </th>
+                                                            <th pSortableColumn="estado">Estado </th>
+                                                            <th pSortableColumn="vencimiento">Fecha Entrega </th>
+                                                            <!-- <th pSortableColumn="vencimiento">Vencimiento </th> -->
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-subtask>
+                                                        <tr>
+                                                            <td>{{subtask.codigo}}</td>
+                                                            <td>{{subtask.titulo_tarea}}</td>
+                                                            <td>{{subtask.nombres_tecnico ? subtask.nombres_tecnico : ' Sin Definir'}} </td>
+                                                            <td>{{subtask.estado}}</td> <!-- Propiedad del estado -->
+                                                            <td>{{ formatTimestamp(subtask.fechaentrega)}}</td>
+                                                            <!-- <td><p-button type="button" icon="pi pi-search"></p-button></td> -->
+                                                        </tr>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="emptymessage">
+                                                        <tr>
+                                                            <td colspan="6">No existen subtareas para este ticket.</td>
+                                                        </tr>
+                                                    </ng-template>
+                                            </p-table>
+                                    </div>
+                                </td>
+                            </tr>
+        </ng-template>
+
+</p-table>
+<div class="card-footer small text-muted">Listado de {{listaTareaEstadoColor.length}} tickets.</div>
+
+<br>
+<!-- <h4>Subtareas asignadas</h4>
+<p-table [paginator]="true" [rows]="3" [value]="listaSubtareasEnTramite" [tableStyle]="{'min-width': '50rem'}"
+responsiveLayout="stack" [breakpoint]="'960px'">
+
+<ng-template pTemplate="header">
+    <tr>
+        <th pSortableColumn="idtarea" style="min-width: 150px;">Ticket <p-sortIcon field="idtarea"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripciontarea" style="min-width: 150px;">Descripcion subtarea <p-sortIcon
+                field="descripciontarea"></p-sortIcon></th>
+        <th pSortableColumn="fechaasignacion" style="min-width: 150px;">Fecha Asignación <p-sortIcon
+                field="fechaasignacion"></p-sortIcon></th>
+        <th pSortableColumn="fechaentrega" style="min-width: 150px;">Fecha Entrega <p-sortIcon
+                field="fechaentrega"></p-sortIcon></th>
+        <th class="text-center">Acción</th>
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-tareaA>
+
+    <tr>
+
+        <td>{{tareaA.idtarea}}</td>
+        <td>{{tareaA.descripciontarea}}</td>
+        <td>{{ formatTimestamp(tareaA.fechaasignacion) }}</td>
+        <td>{{ formatTimestamp(tareaA.fechaentrega) }}</td>
+        <td>
+            <div style=" position: relative;" class="speeddial-linear-demo"><p-speedDial [model]="items3"
+                    direction="left" showIcon="pi pi-ellipsis-h" (onClick)="SubtareaEscogida(tareaA)"></p-speedDial>
+            </div>
+        </td>
+
+    </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="5">No tienes subtareas.</td>
+    </tr>
+</ng-template>
+</p-table>
+<div class="card-footer small text-muted">Listado de {{listaSubtareasEnTramite.length}} subtareas.</div> -->
+
+</p-panel>
+
+
+<!-- Modal para crear una subtarea -->
+<p-dialog (onHide)="cerrarModalAsignacion()" [(visible)]="modalSubtarea" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '40vw'}">
+    <ng-template pTemplate="header">
+        <!-- Confirmation -->
+    </ng-template>
+    <!-- <h2>¿Deseas crear una subtarea al ticket #{{tareaEscogidaTramite.tarea}}?</h2> -->
+    <h2>¿Deseas crear una tarea secundaria al ticket #{{tareaEscogidaTramite.tarea}}?</h2>
+
+    <h4>Descripción tarea secundaria</h4>
+
+    <!-- <input id="descripciontarea" type="text" name="descripciontarea" [(ngModel)]="descripcionsubtarea" pInputText
+        placeholder="Ingrese descripción de tarea" #numInput4="ngModel"> -->
+
+        <textarea rows="5" cols="30" pInputTextarea #numInput4="ngModel" placeholder="Ingrese título del ticket"
+    name="descripcionsubtarea" [(ngModel)]="descripcionsubtarea" style="width: 100%; height: 8rem;"></textarea>
+
+    <h4 class="asign">Asignar a usuario</h4>
+
+    <p-dropdown [options]="listaUsuarios" [filter]="true" [filterBy]="'nombres'" name="listausuarios"
+        [(ngModel)]="usuarioseleccionado" [ngModelOptions]="{ standalone: true }" placeholder="Seleccione un usuario"
+        [optionValue]="listaUsuarios.nombres" appendTo="body" optionLabel="email">
+        <ng-template let-option pTemplate="item">
+
+            {{ option.email }} - {{ option.nombres }} {{option.apellidos}} - {{ option.sucursal }}
+        </ng-template>
+    </p-dropdown>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="crearSubtarea()" label="Aceptar"
+            class="p-button-rounded p-button-help"></button>
+        <button pButton pRipple type="button" (click)="cerrarModalAsignacion()" label="Cancelar"
+            class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- Dialog para ver destalles de tablas con vistas -->
+<p-dialog (onHide)="cerrarModalVerTarea()" [(visible)]="mostrarModalVerTareasSinAsignacion" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <h2>Ticket N° {{verTareaDialog.tarea}}</h2>
+
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="content">
+        <table class="info-table">
+            <tr>
+                <th>Fecha de creación:</th>
+                <td>{{formatTimestamp(verTareaDialog.fechaasignacion)}}</td>
+            </tr>
+            <tr>
+                <th>Título:</th>
+                <td>{{verTareaDialog.titulo_ticket}}</td>
+            </tr>
+            <tr>
+                <th>Agencia:</th>
+                <td>{{verTareaDialog.agencia}}</td>
+            </tr>
+            <tr>
+                <th>Cliente:</th>
+                <td>{{verTareaDialog.client}}</td>
+            </tr>
+            <tr>
+                <th>Tipo de reclamo:</th>
+                <td>{{verTareaDialog.descripciontipoticket}}</td>
+            </tr>
+            <tr>
+                <th>Tipo Comentario:</th>
+                <td>{{verTareaDialog.descripciontipocomentario}}</td>
+            </tr>
+            <tr>
+                <th>Descripción asunto:</th>
+                <td>{{verTareaDialog.descripcionasunto}}</td>
+            </tr>
+            <tr>
+                <th>Estado:</th>
+                <td>{{verTareaDialog.descripcionestado}}</td>
+            </tr>
+            <tr>
+                <th>Prioridad:</th>
+                <td>{{verTareaDialog.descripcionprioridad}}</td>
+            </tr>
+            <tr>
+                <th>Usuario responsable:</th>
+                <td>{{verTareaDialog.usuario_asignado}}</td>
+            </tr>
+            <tr>
+                <th>Usuario que asigno:</th>
+                <td>{{verTareaDialog.usuario_asignador}}</td>
+            </tr>
+            <tr>
+                <th>Fecha de entrega:</th>
+                <td *ngIf="!verTareaDialog.tiemporequerido">{{formatTimestamp(verTareaDialog.tiempooptimo)}}</td>
+                <td *ngIf="verTareaDialog.tiemporequerido">{{formatTimestamp(verTareaDialog.tiemporequerido)}}</td>
+            </tr>
+        </table>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" (click)="cerrarModalVerTarea()" label="Cerrar"
+            class="p-button-rounded p-button-danger"></button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- Dialogo para registrar actividades de tareas principales -->
+
+<p-dialog (onHide)="cerrarModalVerActividad()" header="Ticket N° {{tareaEscogidaTramite.tarea}}" [(visible)]="mostrarModalRegistroActividadTareaP" [modal]="true" [style]="{width: '50vw'}"  [responsive]="true">
+
+    <div *ngIf="activeIndexActivities == 0">
+        <h1>{{tareaEscogidaTramite.titulo_ticket}}</h1>
+        <div class="dropdown-wrapper">
+            <span >Estado:</span>
+            <p-dropdown [disabled]="true" [options]="listaEstadosTareasP" (onChange)="cambiarEstadoTareaP()" [(ngModel)]="estadotareaseleccionado" placeholder="Cambiar estado" optionLabel="descripcionestado" appendTo="body"></p-dropdown>
+            <p-progressSpinner *ngIf="spinnerLoad2 == true"  styleClass="custom-spinner" strokeWidth="7" [style]="{width: '25px', height: '25px'}" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+
+              
+        </div>
+
+        <div *ngIf="activeIndexForm == 0 ">
+            <div class="dropdown-act">
+                <h3>Actividades principales</h3>
+                <!-- <div>
+                    <button pButton pRipple type="button"  class="p-button-text p-button-plain"><i class="fa-solid fa-ellipsis"></i></button>
+                    <button pButton pRipple type="button" (click)="crearActividadTareaP()"  class="p-button-text p-button-plain"><i class="fa-solid fa-plus"></i></button>
+                </div> -->
+            </div>
+            <p-table [paginator]="true" [rows]="3"  [value]="listaActividadesTareaP.task" 
+            responsiveLayout="stack" [breakpoint]="'960px'">
+       
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="idseguimientotarea" >Ticket </th>
+                        <th pSortableColumn="tituloseguimientotarea" >Título </th>
+                        <th pSortableColumn="detalleresolucion" >Descripción </th>
+                        <th pSortableColumn="fechacreacion" >Fecha Creación</th>
+                        <th pSortableColumn="">Usuario</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-actividad>
+    
+                    <tr>
+    
+                        <td>{{tareaEscogidaTramite.codigo}}</td>
+                        <td>{{actividad.tituloseguimientotarea}}</td>
+                        <td>{{actividad.detalleresolucion}}</td>
+                        <td>{{formatTimestamp(actividad.fechacreacion)}}</td>
+                        <td>{{listaActividadesTareaP.assigned}}</td>
+    
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No tienes actividades principales.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-card [style]="{'width': '100vw'}">
+                
+            <!-- <ng-template pTemplate="header"> -->
+                <h3>Actividades secundarias</h3>
+            <!-- </ng-template> -->
+    
+                <p-table  [value]="listaActividadesTareaPSubtareas" dataKey="subtask" [responsive]="true">
+    
+                    <ng-template pTemplate="body" let-product let-expanded="expanded">
+                        <tr>
+                            <td>
+                                <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                            </td>
+                            <td >{{product.subtask}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="rowexpansion" let-product>
+                        <tr>
+                            <td colspan="7">
+                                <div class="p-3">
+                                    <p-table [paginator]="true" [rows]="2"  [value]="product.values" dataKey="id">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th pSortableColumn="">Subtarea </th>
+                                                <th pSortableColumn="">Título </th>
+                                                <th pSortableColumn="">Descripción </th>
+                                                <th pSortableColumn="">Fecha creación </th>
+                                                <th pSortableColumn="">Usuario </th>
+            
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-order>
+                                            <tr>
+                                                <!-- <td>{{product.subtask}}</td> -->
+                                                <td>{{ order.codigo }}</td>
+    
+                                                <td>{{order.tituloseguimientotarea}}</td>
+                                                <td>{{order.detalleresolucion}}</td>
+                                                <td>{{formatTimestamp(order.fechacreacion)}}</td>
+                                                <td>{{order.usuario}}</td>
+    
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td colspan="6">No existen actividades.</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+    
+            </p-card>
+
+        </div>
+
+        <br>
+        <!-- MODAL FORMULARIO -->
+        <div *ngIf="activeIndexForm == 1 " >
+            <div class="container">
+                <h2>Formulario de Resolución</h2>
+                <form class="" #formulario="ngForm">
+                  <div class="grid-container">
+                    <!-- Left Column -->
+                    <div >
+                      <div class="form-group">
+                        <label for="descripcionResolucion">Descripción de Resolución</label>
+                        <input id="descripcionResolucion" name="descripcionResolucion" class="form-control" [(ngModel)]="descripcionresolucion" required>
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="clasificacionResolucion">Clasificación de Resolución</label>
+                        <p-dropdown id="clasificacionResolucion" [options]="listaClasificacionesResoluciones" [(ngModel)]="clasificacionresolucionseleccionada" placeholder="Seleccione una clasificacion de resolucion"
+                          optionLabel="descripcionclasificacion" appendTo="body" name="clasificacionResolucion" [style]="{'width':'100%'}"></p-dropdown>
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="tipoResolucion">Tipo de Resolución</label>
+                        <p-dropdown id="tipoResolucion" name="tipoResolucion" [options]="listaTipoResoluciones" [(ngModel)]="tiporesolucionseleccionada" placeholder="Seleccione un tipo de resolucion"
+                          optionLabel="descripciontiporesolucion" appendTo="body" [style]="{'width':'100%'}"></p-dropdown>
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="observacionMonto">Observación Monto</label>
+                        <input id="observacionMonto" name="observacionMonto" class="form-control" [(ngModel)]="observacionmonto">
+                      </div>
+                    </div>
+              
+                    <!-- Right Column -->
+                    <div >
+                      <div class="form-group">
+                        <label for="monto">Monto</label>
+                        <input type="number" id="monto" name="monto" class="form-control" [(ngModel)]="montoresolucion">
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="interesMonto">Interés Monto</label>
+                        <input type="number" id="interesMonto" name="interesMonto" class="form-control" [(ngModel)]="interesmontoresolucion">
+                      </div>
+                      <br>
+                      <div class="form-group">
+                        <label for="totalMonto">Total Monto</label>
+                        <input type="number" id="totalMonto" name="totalMonto" class="form-control" [value]="montoresolucion + interesmontoresolucion" >
+                      </div>
+                    </div>
+                  </div>
+              <br>
+                  <div class="buttons">
+                    <p-button label="Enviar" (click)="guardarResolucion()" icon="pi pi-check"></p-button>
+                    <p-button label="Atrás" (click)="regresarActividades()"style="margin-left: 10px;" icon="pi pi-arrow-left"></p-button>
+                  </div>
+                </form>
+              </div>
+              
+              
+        </div>
+    </div>
+
+    <div *ngIf="activeIndexActivities == 1">
+        <div>
+            <label for="tituloactividad">Título de la Actividad</label>
+            <textarea pInputTextarea [(ngModel)]="tituloactividad" placeholder="Ingrese título de la actividad" id="tituloactividad" style="height: 4rem;" rows="4" cols="50"></textarea>
+        </div>
+        <br>
+        <div>
+            <label for="descripcionactividad">Descripción de la Actividad</label>
+            <textarea pInputTextarea id="descripcionactividad" placeholder="Ingrese la descripción de la actividad" [(ngModel)]="descripcionactividad" style="height: 8rem;" rows="4" cols="50"></textarea>
+        </div>
+        <br>
+        <!-- <button pButton pRipple type="button" label="Primary"></button> -->
+
+        <button pButton pRipple type="button" (click)="sendToUpload()"  label="Subir Archivo"></button>
+        <button *ngIf="activeUpload == 1" pButton pRipple type="button" class="p-button-secondary" (click)="closeUpload()" label="Cancelar"></button>
+        <br>
+        <div *ngIf="activeUpload == 1">
+            <p-card>
+                <div>
+                    <label for="activityFile">Descripción del Archivo</label>
+                    <input type="text" [(ngModel)]="descripcionArchivo" [style]="'width: 100%'" placeholder="Descripción del archivo" id="nombreArchivo">
+                </div>
+                <br>
+                <div>
+                    <br>
+                    <label for="activityFile">Adjuntar Archivo</label>
+                    <p-fileUpload [files]="myfiles"  name="activityFile" [customUpload]="true"  accept=" application/pdf" (uploadHandler)="myUploader($event)" ></p-fileUpload>
+                  </div>
+            </p-card>
+        </div>
+        
+
+        <div class="flex">
+            <button pButton pRipple type="button" (click)="cerrarModalVerActividad()" label="Cancelar"></button>
+            <button pButton pRipple type="button" (click)="volverModalVerActividad()" label="Atrás"></button>
+            <button pButton pRipple type="button" (click)="guardarActividadTareaPrincipal('crear')" label="Guardar"></button>
+
+        </div>
+        
+    </div>
+</p-dialog>
+
+<!-- Modal para mostrar lista de archivos -->
+<p-dialog (onHide)="cerrarModalAsignacion()" [(visible)]="mostrarModalArchivos" [modal]="true"
+    [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '45vw'}">
+    <div>
+        <h2>Lista de documentos adjuntos {{tareaEscogidaTramite.tarea}}</h2>
+        
+        <!-- Mostrar el spinner cuando los archivos se están cargando -->
+        <div class="spinner-container" *ngIf="cargandoArchivos">
+            <p-progressSpinner styleClass="custom-spinner" strokeWidth="7" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+        </div>
+                
+        <p-table [paginator]="true" [rows]="3"  [value]="listaArchivos" *ngIf="!cargandoArchivos">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Archivo</th>
+                    <th>Descripción</th>
+                    <th>Ver</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-formData>
+                <tr>
+                    <td>{{ formData.nombrearchivo }}</td>
+                    <td>{{ formData.descripcionarchivo }}</td>
+                    <td >
+                        <div class="spacer_spinner">
+                            <button pButton type="button" style="background-color: #6f2b70;" (click)="openPDF(formData)" icon="pi pi-file-pdf"></button>
+                            <p-progressSpinner *ngIf="formData.showspinner" strokeWidth="7"
+                            [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="3">No hay archivos</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-dialog>
+
+<p-toast></p-toast>

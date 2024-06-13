@@ -1,0 +1,52 @@
+<nav>
+  <img src="../assets/keta logo 2.svg" alt="Logo_jakay" height="55px">
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+      aria-expanded="false"><i class="pi pi-user"></i> {{usuarioLoggeado}}</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+      <li><a class="dropdown-item"> <i class="pi pi-cog"></i> Configuración</a></li>
+      <li>
+        <hr class="dropdown-divider" />
+      </li>
+      <li><a class="dropdown-item" (click)="logout()"> <i class="pi pi-sign-out"></i> Cerrar Sesión</a>
+      </li>
+    </ul>
+  </li>
+</nav>
+
+<div class="sidebar_container">
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul class=" navbar-nav">
+
+        <li class="nav-item active">
+          <a class="nav-link" href="/operador-ticket/dashboard-operador/ticket-table-operador">
+            <i class="pi pi-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/operador-ticket/list-tickets" href="/tickets">
+            <i class="fas fa-fw fa-tasks"></i>
+            <span>Todos los tickets</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/operador-ticket/list-users">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Lista usuarios</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

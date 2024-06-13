@@ -1,0 +1,131 @@
+  /* Global styles */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+
+  body {
+    margin: 0;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  p,
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+h1{
+    font-weight: 500;
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #7048e8;
+ }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #7048e8;
+  }
+
+  form {
+    margin: 2rem;
+  }
+
+  label {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  button {
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  input {
+    font-family: 'Poppins', Arial, sans-serif;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff;
+  }
+
+  :host ::ng-deep p-dropdown .p-dropdown-label.p-placeholder {
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 0.9rem;
+  }
+
+  :host ::ng-deep .p-dropdown .p-component .p-dropdown-clearable {
+    flex: 1;
+    height: 50px;
+  }
+
+  .data-title {
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: 400;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .flex_center {
+    display: flex;
+  }
+
+  .container {
+    font-family: 'Poppins', Arial, sans-serif;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 2rem 5rem;
+  }
+
+  :host ::ng-deep p-password .p-element .p-inputwrapper .p-password-mask .p-inputwrapper-filled {
+    width: 300px;
+  }
+  :host ::ng-deep  .p-input-icon-right > .p-inputtext {
+    padding-right: 2.5rem;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 14px;
+    width: 308px;
+}
+  .password {
+    width: 100%;
+  }
+
+  .group {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .p-inputtext {
+    font-size: 0.9rem;
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  /* Primary button with color #7048e8 (Soft purple) */
+  .btn-primary {
+    background-color: #4e1e4f;
+    color: #fff;
+  }
+
+  /* Optional: Hover effect for buttons */
+  .button-update:hover,
+  button:hover {
+    background-color: #5d3bb3;
+  }
+
